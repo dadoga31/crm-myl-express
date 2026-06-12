@@ -1,0 +1,1559 @@
+/* ============================================================
+   MÓDULO LOGÍSTICA — Variables CSS y estilos originales
+   Scopeados bajo #li-module para no afectar a facturación
+   ============================================================ */
+
+/* Variables del tema claro */
+#li-module {
+  --bg:       #f0f2f5;
+  --bg2:      #ffffff;
+  --bg3:      #f5f6f8;
+  --border:   #e8eaee;
+  --border2:  #d8dbe3;
+  --text:     #0f1117;
+  --text2:    #4b5263;
+  --text3:    #9299a8;
+  --accent:   #7c3aed;
+  --accent2:  #6d28d9;
+  --accent-soft: rgba(124,58,237,0.08);
+  --accent-mid:  rgba(124,58,237,0.15);
+  --accent-icon: rgba(124,58,237,0.12);
+  --green:    #16a34a;
+  --green-soft: rgba(22,163,74,0.1);
+  --amber:    #d97706;
+  --amber-soft: rgba(217,119,6,0.1);
+  --red:      #dc2626;
+  --cyan:     #0891b2;
+  --font:     'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --mono:     'Inter', ui-monospace, 'SF Mono', Menlo, monospace;
+  --shadow:   0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06);
+  --shadow-card: 0 1px 4px rgba(0,0,0,.05), 0 2px 12px rgba(0,0,0,.04);
+}
+
+/* Variables del tema oscuro — Paleta slate (igual que facturación)
+   Responde tanto a html.dark (Tailwind) como a #li-module.dark (JS propagación) */
+#li-module.dark,
+html.dark #li-module {
+  --bg:       #020617;  /* slate-950 */
+  --bg2:      #0f172a;  /* slate-900 */
+  --bg3:      #1e293b;  /* slate-800 */
+  --border:   #1e293b;  /* slate-800 */
+  --border2:  #334155;  /* slate-700 */
+  --text:     #e2e8f0;  /* slate-200 */
+  --text2:    #94a3b8;  /* slate-400 */
+  --text3:    #475569;  /* slate-600 */
+  --accent:   #a855f7;  /* purple-500 */
+  --accent2:  #9333ea;  /* purple-600 */
+  --accent-soft: rgba(168,85,247,0.12);
+  --accent-mid:  rgba(168,85,247,0.2);
+  --accent-icon: rgba(168,85,247,0.15);
+  --green:    #22c55e;
+  --green-soft: rgba(34,197,94,0.12);
+  --amber:    #f59e0b;
+  --amber-soft: rgba(245,158,11,0.12);
+  --red:      #ef4444;
+  --cyan:     #22d3ee;
+  --shadow:   0 1px 3px rgba(0,0,0,.5), 0 4px 16px rgba(0,0,0,.4);
+  --shadow-card: 0 1px 3px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.3);
+}
+
+
+/* Estructura de layout del módulo */
+#li-module {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+}
+
+
+
+#li-module {
+  --bg:       #f0f2f5;
+  --bg2:      #ffffff;
+  --bg3:      #f5f6f8;
+  --border:   #e8eaee;
+  --border2:  #d8dbe3;
+  --text:     #0f1117;
+  --text2:    #4b5263;
+  --text3:    #9299a8;
+  --accent:   #7c3aed;
+  --accent2:  #6d28d9;
+  --accent-soft: rgba(124,58,237,0.08);
+  --accent-mid:  rgba(124,58,237,0.15);
+  --accent-icon: rgba(124,58,237,0.12);
+  --green:    #16a34a;
+  --green-soft: rgba(22,163,74,0.1);
+  --amber:    #d97706;
+  --amber-soft: rgba(217,119,6,0.1);
+  --red:      #dc2626;
+  --cyan:     #0891b2;
+  --font:     'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --mono:     'Inter', ui-monospace, 'SF Mono', Menlo, monospace;
+  --shadow:   0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06);
+  --shadow-card: 0 1px 4px rgba(0,0,0,.05), 0 2px 12px rgba(0,0,0,.04);
+}
+
+/* ── Dark theme (toggle) ─────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:       #020617;
+  --bg2:      #0f172a;
+  --bg3:      #1e293b;
+  --border:   #1e293b;
+  --border2:  #334155;
+  --text:     #e2e8f0;
+  --text2:    #94a3b8;
+  --text3:    #475569;
+  --accent:   #a855f7;
+  --accent2:  #9333ea;
+  --accent-soft: rgba(168,85,247,0.12);
+  --accent-mid:  rgba(168,85,247,0.2);
+  --accent-icon: rgba(168,85,247,0.15);
+  --green:    #22c55e;
+  --green-soft: rgba(34,197,94,0.12);
+  --amber:    #f59e0b;
+  --amber-soft: rgba(245,158,11,0.12);
+  --red:      #ef4444;
+  --cyan:     #22d3ee;
+  --shadow:   0 1px 3px rgba(0,0,0,.5), 0 4px 16px rgba(0,0,0,.4);
+  --shadow-card: 0 1px 3px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.3);
+}
+
+/* ── Theme transition ───────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  transition: background-color .2s ease, border-color .2s ease, color .15s ease;
+}
+/* exclude transitions that would break animations */
+.kpi-bar-fill, .status-dropdown, .nav-item::before { transition: none !important; }    #li-module .kpi-bar-fill { transition: width .6s ease !important; }#li-module { font-size: 14px; }#li-module {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  min-width: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02','cv03','cv04','cv11';
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}    #li-module *,
+    #li-module *::before,
+    #li-module *::after { box-sizing: border-box; margin: 0; padding: 0; }#li-module { font-size: 14px; }
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }    #li-module ::-webkit-scrollbar-track { background: transparent; }    #li-module ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ── Sidebar ───────────────────────────────────────────────────────────────── */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  z-index: 50;
+  box-shadow: 2px 0 12px rgba(0,0,0,.04);
+}    #li-module .sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border);
+}    #li-module .logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}    #li-module .logo-icon {
+  width: 28px; height: 28px;
+  background: var(--accent);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}    #li-module .logo-icon svg { width: 16px; height: 16px; stroke: #fff; fill: none; }    #li-module .logo-name { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; color: var(--text); }    #li-module .logo-tagline { font-size: 10px; color: var(--text3); letter-spacing: 1.2px; text-transform: uppercase; margin-top: 3px; font-weight: 600; }    #li-module .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; }    #li-module .nav-section { margin-bottom: 20px; }    #li-module .nav-section-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+  color: var(--text3); text-transform: uppercase;
+  padding: 0 8px 8px;
+}    #li-module .nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 13.5px; font-weight: 400;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all .12s;
+  border: none; background: none;
+  width: 100%; text-align: left;
+  font-family: var(--font);
+  margin-bottom: 2px;
+  position: relative;
+}    #li-module .nav-item svg { width: 16px; height: 16px; stroke: currentColor; fill: none; flex-shrink: 0; stroke-width: 1.8; }    #li-module .nav-item:hover { background: var(--bg3); color: var(--text); }    #li-module .nav-item.active { 
+  background: var(--accent); 
+  color: #fff !important; 
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(124,58,237,.25);
+}    #li-module .nav-item.active svg { stroke: #fff; }    #li-module .nav-badge {
+  margin-left: auto;
+  font-size: 11px; font-weight: 600;
+  background: var(--border2);
+  color: var(--text2);
+  padding: 1px 7px;
+  border-radius: 20px;
+}    #li-module .nav-item.active .nav-badge { background: rgba(255,255,255,0.25); color: #fff; }    #li-module .sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+}    #li-module .sidebar-footer-text { font-size: 11px; color: var(--text3); line-height: 1.8; }    #li-module .sidebar-status {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 3px;
+}    #li-module .sidebar-status-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0;
+}
+
+/* ── Main ──────────────────────────────────────────────────────────────────── */
+.main { margin-left: 240px; flex: 1; min-height: 100vh; display: flex; flex-direction: column; min-width: 0; overflow-x: hidden; width: calc(100vw - 240px); }    #li-module .topbar {
+  height: 60px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 22px;
+  gap: 16px;
+  background: var(--bg2);
+  position: sticky; top: 0; z-index: 40;
+}    #li-module .topbar-title { font-size: 18px; font-weight: 700; color: var(--text); }    #li-module .topbar-sep { color: var(--border2); }    #li-module .topbar-sub { font-size: 13px; color: var(--text3); }    #li-module .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }    #li-module .topbar-date { font-size: 12px; color: var(--text3); font-family: var(--mono); }    #li-module .content { padding: 18px 22px 64px 22px !important; flex: 1; min-width: 0; max-width: 100%; box-sizing: border-box; }
+
+/* ── Cards / Surfaces ─────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: var(--shadow-card);
+}    #li-module .card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}    #li-module .card-title { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.8px; }
+
+/* ── KPI Grid ─────────────────────────────────────────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; margin-bottom: 20px; }    #li-module .kpi-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 20px 18px;
+  box-shadow: var(--shadow-card);
+}    #li-module .kpi-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }    #li-module .kpi-value { font-size: 32px; font-weight: 700; color: var(--text); letter-spacing: -1px; line-height: 1; }    #li-module .kpi-delta { font-size: 11px; color: var(--text3); margin-top: 6px; font-family: var(--mono); }    #li-module .kpi-bar { height: 3px; background: var(--border); border-radius: 2px; margin-top: 14px; overflow: hidden; }    #li-module .kpi-bar-fill { height: 100%; border-radius: 2px; transition: width .6s ease; }
+
+/* ── Status Pills — light mode base ──────────────────────────────────────── */
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.3px;
+  font-family: var(--mono);
+}    #li-module .pill-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+/* Light mode (default): solid tinted bg + dark readable text */
+.pill-recogido  { background: #f0f1f5; color: #4b5263; border: 1px solid #d0d4de; }    #li-module .pill-recogido  .pill-dot { background: #7c8494; }    #li-module .pill-empacado { background: #fff7e6; color: #92400e; border: 1px solid #fcd34d; }    #li-module .pill-empacado  .pill-dot { background: #d97706; }    #li-module .pill-transito { background: #f3effe; color: #5b21b6; border: 1px solid #c4b5fd; }    #li-module .pill-transito  .pill-dot { background: #7c3aed; }    #li-module .pill-entregado { background: #f0fdf4; color: #14532d; border: 1px solid #86efac; }    #li-module .pill-entregado .pill-dot { background: #16a34a; }
+
+/* Dark mode overrides for status pills */
+#li-module.dark .pill-recogido  { background: rgba(138,145,160,.18); color: #b0b7c6; border-color: rgba(138,145,160,.25); }
+#li-module.dark .pill-empacado  { background: rgba(245,158,11,.18);  color: #fbbf24; border-color: rgba(245,158,11,.3); }
+#li-module.dark .pill-transito  { background: rgba(157,108,248,.2);  color: #c4b5fd; border-color: rgba(157,108,248,.35); }
+#li-module.dark .pill-entregado { background: rgba(34,197,94,.18);   color: #4ade80; border-color: rgba(34,197,94,.3); }
+
+/* ── Status pill buttons (inline table dropdown) ──────────────────────────── */
+.status-cell { position: relative; display: inline-block; }    #li-module .status-pill-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 8px 4px 9px;
+  border-radius: 4px;
+  font-size: 11px; font-weight: 500;
+  font-family: var(--mono); letter-spacing: 0.2px;
+  cursor: pointer; border: none;
+  transition: filter .1s;
+  user-select: none;
+}    #li-module .status-pill-btn:hover { filter: brightness(1.05); }    #li-module .status-pill-btn .pill-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }    #li-module .status-pill-btn .chev {
+  width: 10px; height: 10px; margin-left: 2px; opacity: .6;
+  background: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='currentColor' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") no-repeat center / contain;
+}    #li-module .status-dropdown {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 300;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 4px;
+  min-width: 150px;
+  box-shadow: 0 12px 36px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+  display: none;
+}    #li-module .status-dropdown.open { display: block; }    #li-module .status-opt {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-size: 12px; font-weight: 500;
+  font-family: var(--mono);
+  cursor: pointer;
+  transition: background .08s;
+  color: var(--text2);
+}    #li-module .status-opt:hover { background: var(--bg3); color: var(--text); }    #li-module .status-opt.selected { color: var(--text); }    #li-module .status-opt .opt-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── Print receipt modal ──────────────────────────────────────────────────── */
+.print-modal { max-width: 480px; }    #li-module .ticket-wrap {
+  display: flex;
+  justify-content: center;
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 16px;
+}    #li-module .print-preview-img {
+  width: 220px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  display: block;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+}    #li-module .print-actions { display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
+@media print {
+  body > *:not(#print-frame) { display: none !important; }    #li-module #print-frame { display: block !important; position: fixed; inset: 0; width: 100%; height: 100%; }
+}
+
+
+/* ── Table ────────────────────────────────────────────────────────────────── */
+.tbl-wrap { overflow-x: auto; width: 100%; }    #li-module table { width: 100%; border-collapse: collapse; }    #li-module thead th {
+  padding: 11px 14px;
+  font-size: 11px; font-weight: 600;
+  color: var(--text3); text-align: left;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+  white-space: nowrap;
+}    #li-module tbody td {
+  padding: 13px 14px;
+  font-size: 13px; color: var(--text2);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}    #li-module tbody tr { transition: background .08s; }    #li-module tbody tr:hover td { background: var(--bg3); }    #li-module tbody tr:last-child td { border-bottom: none; }    #li-module .td-mono { font-family: var(--mono); font-size: 12px; color: var(--text); font-weight: 500; }    #li-module .td-main { color: var(--text); font-weight: 400; }    #li-module .td-action { display: flex; gap: 6px; }
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+.btn { -webkit-appearance: none; appearance: none;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; border: none;
+  transition: all .15s;
+  font-family: var(--font);
+  white-space: nowrap;
+}    #li-module .btn svg { width: 15px; height: 15px; min-width: 15px; min-height: 15px; max-width: 15px; max-height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; flex-shrink: 0; }    #li-module .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 1px 3px rgba(124,58,237,.25); }    #li-module .btn-primary:hover { background: var(--accent2); box-shadow: 0 2px 8px rgba(124,58,237,.35); }    #li-module .btn-ghost {
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+}    #li-module .btn-ghost:hover { background: var(--bg3); color: var(--text); }    #li-module .btn-sm { padding: 5px 12px; font-size: 12px; border-radius: 6px; }    #li-module .btn-danger { background: rgba(220,38,38,.08); color: var(--red); border: 1px solid rgba(220,38,38,.15); }    #li-module .btn-danger:hover { background: rgba(220,38,38,.15); }    #li-module .btn-success { background: var(--green-soft); color: var(--green); border: 1px solid rgba(22,163,74,.2); }    #li-module .btn-success:hover { background: rgba(22,163,74,.18); }
+
+/* ── Form elements ────────────────────────────────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: 6px; }    #li-module .field-label {
+  font-size: 11px; font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.8px;
+}    #li-module .field-label .req { color: var(--red); margin-left: 2px; }    #li-module input[type=text],
+    #li-module input[type=email],
+    #li-module input[type=number],
+    #li-module select,
+    #li-module textarea {
+  padding: 9px 13px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  font-size: 13px; color: var(--text);
+  font-family: var(--font);
+  outline: none;
+  transition: border-color .12s, box-shadow .12s;
+  width: 100%;
+}    #li-module input:focus,
+    #li-module select:focus,
+    #li-module textarea:focus { 
+  border-color: var(--accent); 
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}    #li-module select { appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239299a8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px;
+}    #li-module select option { background: var(--bg2); color: var(--text); }#li-module.dark {
+  background: var(--bg3);
+}
+
+/* Dark mode overrides for status pill buttons (inline table dropdown) */
+#li-module.dark .status-pill-btn[data-s="Recogido"]    { background: rgba(138,145,160,.18) !important; color: #b0b7c6 !important; border: 1px solid rgba(138,145,160,.25) !important; }
+#li-module.dark .status-pill-btn[data-s="Empacado"]    { background: rgba(245,158,11,.18) !important;  color: #fbbf24 !important; border: 1px solid rgba(245,158,11,.3) !important; }
+#li-module.dark .status-pill-btn[data-s="En Tránsito"] { background: rgba(157,108,248,.2) !important;   color: #c4b5fd !important; border: 1px solid rgba(157,108,248,.35) !important; }
+#li-module.dark .status-pill-btn[data-s="Entregado"]   { background: rgba(34,197,94,.18) !important;   color: #4ade80 !important; border: 1px solid rgba(34,197,94,.3) !important; }
+    #li-module .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }    #li-module .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+/* ── Modals ───────────────────────────────────────────────────────────────── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200; padding: 20px;
+}    #li-module .modal {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 0;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0,0,0,.12), 0 4px 16px rgba(0,0,0,.06);
+}    #li-module .modal.modal-wide { max-width: 700px; }    #li-module .modal.modal-xl { max-width: 880px; }    #li-module .modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}    #li-module .modal-head-title { font-size: 16px; font-weight: 700; color: var(--text); }    #li-module .modal-body { padding: 24px; overflow-y: auto; flex: 1; }    #li-module .modal-foot {
+  display: flex; justify-content: flex-end; gap: 10px;
+  padding: 16px 24px; flex-shrink: 0;
+  border-top: 1px solid var(--border);
+}    #li-module .btn-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px; border: none;
+  background: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text3); transition: all .1s;
+}    #li-module .btn-icon:hover { background: var(--bg3); color: var(--text); }    #li-module .btn-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }    #li-module .section-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }    #li-module .section-heading { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }    #li-module .section-sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
+
+/* ── Filter bar ──────────────────────────────────────────────────────────── */
+.filter-strip { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }    #li-module .filter-chip {
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 12px; font-weight: 500;
+  border: 1px solid var(--border2);
+  background: transparent; color: var(--text2);
+  cursor: pointer; font-family: var(--font);
+  transition: all .1s;
+}    #li-module .filter-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }    #li-module .filter-chip.active { background: var(--accent-soft); border-color: var(--accent-mid); color: var(--accent); }    #li-module .search-input {
+  padding: 6px 12px;
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  background: var(--bg3);
+  font-size: 12px; color: var(--text);
+  font-family: var(--font);
+  outline: none; width: 200px;
+}    #li-module .search-input:focus { border-color: var(--accent); }
+
+/* ── Entity cards ────────────────────────────────────────────────────────── */
+.entity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }    #li-module .entity-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  transition: border-color .15s, box-shadow .15s;
+  box-shadow: var(--shadow-card);
+}    #li-module .entity-card:hover { border-color: var(--border2); box-shadow: 0 4px 24px rgba(0,0,0,.08); }    #li-module .entity-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }    #li-module .entity-avatar {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--accent-icon);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: var(--accent);
+  font-family: var(--mono); flex-shrink: 0;
+}    #li-module .entity-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }    #li-module .entity-row { font-size: 12px; color: var(--text3); margin-bottom: 2px; font-family: var(--mono); }    #li-module .entity-tag {
+  display: inline-block;
+  font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 3px;
+  margin-top: 10px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  background: var(--bg3); color: var(--text3);
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+}    #li-module .entity-actions { display: flex; gap: 6px; }
+
+/* ── Detail cells ────────────────────────────────────────────────────────── */
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px !important; }
+.detail-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 32px !important; }
+.detail-cell { display: flex; flex-direction: column; padding: 16px 20px !important; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; }
+.detail-cell-key { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.detail-cell-val { font-size: 15px; font-weight: 600; color: var(--text); font-family: var(--sans); }
+
+/* ── Checkbox ────────────────────────────────────────────────────────────── */
+.check-row { display: flex; align-items: center; gap: 8px; }    #li-module .check-row input[type=checkbox] { width: auto; accent-color: var(--accent); cursor: pointer; }    #li-module .check-label { font-size: 13px; color: var(--text2); }
+
+/* ── Status select inline ─────────────────────────────────────────────────── */
+.status-select {
+  background: transparent; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 11px; font-weight: 500;
+  outline: none; padding: 0;
+}
+
+/* ── Partner active badge ─────────────────────────────────────────────────── */
+.active-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; }    #li-module .active-badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* ── Document preview area ───────────────────────────────────────────────── */
+.doc-area { margin-top: 16px; }    #li-module .doc-area-head {
+  font-size: 10px; font-weight: 600;
+  color: var(--text3); text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 10px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}    #li-module .doc-preview-img {
+  width: 100%; border-radius: 6px;
+  border: 1px solid var(--border);
+  display: block;
+}
+
+/* ── Dark mode sidebar overrides ─────────────────────────────────────────── */
+#li-module.dark .sidebar {
+  background: var(--bg2);
+  border-right-color: var(--border);
+  box-shadow: 2px 0 12px rgba(0,0,0,.3);
+}
+#li-module.dark .topbar {
+  background: var(--bg2);
+  border-bottom-color: var(--border);
+}
+#li-module.dark .nav-item.active {
+  background: var(--accent);
+  box-shadow: 0 2px 8px rgba(168,85,247,.3);
+}
+#li-module.dark .nav-badge {
+  background: var(--border2);
+  color: var(--text2);
+}
+#li-module.dark .content { background: var(--bg); }
+
+/* ── Util ─────────────────────────────────────────────────────────────────── */
+.hidden { display: none !important; }    #li-module .flex { display: flex; }    #li-module .flex-col { display: flex; flex-direction: column; }    #li-module .gap-8 { gap: 8px; }    #li-module .gap-10 { gap: 10px; }    #li-module .gap-12 { gap: 12px; }    #li-module .gap-16 { gap: 16px; }    #li-module .gap-20 { gap: 20px; }    #li-module .mt-8 { margin-top: 8px; }    #li-module .mt-12 { margin-top: 12px; }    #li-module .mt-16 { margin-top: 16px; }    #li-module .mb-12 { margin-bottom: 12px; }    #li-module .mb-16 { margin-bottom: 16px; }    #li-module .text-mono { font-family: var(--mono); }    #li-module .text-dim { color: var(--text3); }    #li-module .text-sm { font-size: 12px; }    #li-module .full { grid-column: 1 / -1; }
+
+/* ── 2-col layout ─────────────────────────────────────────────────────────── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }    #li-module .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+/* ── Login screen ─────────────────────────────────────────────────────────── */
+#login-screen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(145deg, #f0edff 0%, #e8e4f8 40%, #f4f0ff 100%);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; padding: 20px;
+}    #li-module .login-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 24px;
+  padding: 44px 44px 40px;
+  width: 100%; max-width: 420px;
+  box-shadow: 0 20px 60px rgba(124,58,237,.12), 0 4px 20px rgba(0,0,0,.06);
+  text-align: center;
+}
+/* Logo MYL3 area */
+.login-logo-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  margin-bottom: 28px;
+}    #li-module .login-myl-logo {
+  height: 56px; width: auto; margin-bottom: 0;
+}
+/* Title */
+.login-title {
+  font-size: 26px; font-weight: 800; color: #0f1117;
+  margin-bottom: 8px; letter-spacing: -0.5px;
+}    #li-module .login-sub {
+  font-size: 13px; color: #9299a8; margin-bottom: 32px; line-height: 1.5;
+}
+/* Field labels — uppercase small */
+.login-field-label {
+  display: block; text-align: left;
+  font-size: 11px; font-weight: 700; color: #4b5263;
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+/* Ambos inputs — mismo estilo exacto, compacto y centrado */
+.login-input-user,
+.login-input-pass {
+  box-sizing: border-box !important;
+  display: block !important;
+  width: 280px !important;
+  max-width: 100% !important;
+  padding: 12px 18px !important;
+  border: 1.5px solid #e8eaee !important;
+  border-radius: 12px !important;
+  font-size: 14px !important;
+  color: #0f1117 !important;
+  font-family: var(--font) !important;
+  background: #f8f9fc !important;
+  outline: none !important;
+  transition: border-color .15s, box-shadow .15s !important;
+}    #li-module .login-input-user:focus,
+    #li-module .login-input-pass:focus {
+  border-color: #7c3aed !important;
+  box-shadow: 0 0 0 3px rgba(124,58,237,.1) !important;
+  background: #fff !important;
+}    #li-module .login-pass-wrap,
+    #li-module .login-user-wrap {
+  display: flex !important;
+  justify-content: center !important;
+}
+/* Login button */
+.login-btn {
+  width: 100%; padding: 16px;
+  background: #7c3aed; color: #fff;
+  border: none; border-radius: 14px;
+  font-size: 14px; font-weight: 800;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  cursor: pointer; font-family: var(--font);
+  transition: background .15s, transform .1s, box-shadow .15s;
+  box-shadow: 0 4px 16px rgba(124,58,237,.35);
+}    #li-module .login-btn:hover {
+  background: #6d28d9;
+  box-shadow: 0 6px 20px rgba(124,58,237,.45);
+  transform: translateY(-1px);
+}    #li-module .login-btn:active { transform: translateY(0); }    #li-module .login-error {
+  background: rgba(220,38,38,.07); border: 1px solid rgba(220,38,38,.18);
+  color: #dc2626; border-radius: 10px; padding: 10px 16px;
+  font-size: 13px; margin-bottom: 16px; display: none; text-align: left;
+}
+
+/* ── User avatar chip in topbar ──────────────────────────────────────────── */
+.user-chip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 10px 5px 5px;
+  border-radius: 24px; border: 1px solid var(--border2);
+  background: var(--bg3); cursor: pointer;
+  transition: all .15s; position: relative; user-select: none;
+}    #li-module .user-chip:hover { background: var(--border); }    #li-module .user-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
+}    #li-module .user-chip-name { font-size: 12px; font-weight: 600; color: var(--text); }    #li-module .user-chip-role { font-size: 10px; color: var(--text3); }    #li-module .user-menu {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 500;
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 10px; padding: 6px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.06);
+  display: none;
+}    #li-module .user-menu.open { display: block; }    #li-module .user-menu-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 6px;
+  font-size: 13px; color: var(--text2);
+  cursor: pointer; transition: background .08s;
+}    #li-module .user-menu-item:hover { background: var(--bg3); color: var(--text); }    #li-module .user-menu-item svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; flex-shrink: 0; }    #li-module .user-menu-sep { height: 1px; background: var(--border); margin: 4px 0; }    #li-module .user-menu-item.danger { color: var(--red); }    #li-module .user-menu-item.danger:hover { background: rgba(220,38,38,.08); }
+
+/* ── Role badges ─────────────────────────────────────────────────────────── */
+.role-badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 4px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}    #li-module .role-admin { background: rgba(124,58,237,.1); color: #7c3aed; }    #li-module .role-operario { background: rgba(22,163,74,.1);  color: #16a34a; }    #li-module .role-consulta { background: rgba(217,119,6,.1);  color: #d97706; }
+
+/* ── Read-only overlay for consulta ──────────────────────────────────────── */
+.readonly-badge {
+  position: fixed; bottom: 20px; right: 20px; z-index: 8000;
+  background: var(--amber); color: #fff;
+  padding: 8px 14px; border-radius: 8px;
+  font-size: 12px; font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  display: none;
+}
+/* ================================================================
+   FIXES DE LAYOUT — Para el módulo embebido en facturación
+   ================================================================ */
+
+/* El section view de logística ocupa todo el espacio */
+#view-logistica {
+  padding: 0 !important;
+  margin: -32px !important;
+  height: calc(100vh - 80px) !important;
+  overflow: hidden !important;
+}
+
+/* El wrapper principal */
+#li-module {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sync bar */
+#li-sync-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--accent-soft, rgba(124,58,237,0.08));
+  border-bottom: 1px solid var(--accent-mid, rgba(124,58,237,0.15));
+  color: var(--accent, #7c3aed);
+  flex-shrink: 0;
+}
+#li-sync-bar svg {
+  width: 13px; height: 13px; stroke: currentColor;
+  fill: none; stroke-width: 2;
+  animation: li-spin 1.5s linear infinite;
+}
+@keyframes li-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Contenedor li-wrap (aside + main) */
+#li-module .li-wrap,
+#li-module > aside + .main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* El aside de logística */
+#li-module aside.sidebar {
+  flex-shrink: 0;
+}
+
+/* El main de logística */
+#li-module .main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0 !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* El content de logística scrollea */
+#li-module .content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* ── Barra de acción personalizada (reemplaza section-row) ───────────────── */
+#li-module .li-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 8px 0 14px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  min-height: 44px;
+}
+#li-module .li-action-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+}
+#li-module .li-action-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Botones de acción en la barra — grandes como los de la app principal */
+#li-module .li-action-bar .btn {
+  padding: 10px 22px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+  gap: 8px !important;
+  height: auto !important;
+}
+#li-module .li-action-bar .btn svg {
+  width: 15px !important;
+  height: 15px !important;
+}
+#li-module .li-action-bar .btn-primary {
+  background: #7c3aed !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(124,58,237,.30) !important;
+}
+#li-module .li-action-bar .btn-primary:hover {
+  background: #6d28d9 !important;
+  box-shadow: 0 6px 20px rgba(124,58,237,.40) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Modal resguardo almacén — overlay y modal-body correctos */
+#modal-pallet-receipt.overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0,0,0,.55) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999 !important;
+  backdrop-filter: blur(4px) !important;
+}
+#modal-pallet-receipt .modal {
+  background: #fff !important;
+  border-radius: 20px !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25) !important;
+  overflow: hidden !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+}
+#modal-pallet-receipt .modal-head {
+  background: #fff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+#modal-pallet-receipt .modal-head-title {
+  color: #111827 !important;
+}
+#modal-pallet-receipt .modal-body {
+  background: #fff !important;
+}
+#modal-pallet-receipt .btn-primary {
+  background: #7c3aed !important;
+  color: #fff !important;
+  padding: 11px 22px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 14px rgba(124,58,237,.30) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+#modal-pallet-receipt .btn-primary:disabled {
+  opacity: 0.5 !important;
+}
+#modal-pallet-receipt .btn-ghost {
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  border-radius: 12px !important;
+  border: 1.5px solid #d1d5db !important;
+  color: #374151 !important;
+  background: transparent !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+#modal-pallet-receipt .btn-ghost:hover {
+  background: #f9fafb !important;
+  border-color: #9ca3af !important;
+}
+
+/* ── Layout integrado: ocultar heading duplicado, mantener barra de acción ── */
+
+/* Ocultar el título grande (el header principal ya lo muestra) */
+#li-module .section-heading {
+  display: none !important;
+}
+
+/* La section-row se convierte en una barra de acción compacta */
+#li-module .section-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-bottom: 18px !important;
+  padding: 10px 0 12px !important;
+  border-bottom: 1px solid var(--border) !important;
+  min-height: 48px !important;
+}
+
+/* Subtítulo/contador: pequeño y visible a la izquierda */
+#li-module .section-sub {
+  display: block !important;
+  font-size: 12px !important;
+  color: var(--text3) !important;
+  margin: 0 !important;
+  font-family: var(--mono) !important;
+}
+
+/* El div izquierdo con heading (ya oculto) + sub */
+#li-module .section-row > div:first-child {
+  display: flex;
+  align-items: center;
+  min-height: 28px;
+}
+
+/* Botones de acci\u00f3n en secciones \u2014 tama\u00f1o grande igual que la app principal */
+#li-module .section-row .btn:not(.btn-sm) {
+  padding: 10px 22px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+  gap: 8px !important;
+  height: auto !important;
+  flex-shrink: 0;
+}
+#li-module .section-row .btn:not(.btn-sm) svg {
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  min-height: 15px !important;
+  max-width: 15px !important;
+  max-height: 15px !important;
+}
+#li-module .section-row .btn-primary {
+  background: #7c3aed !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(124,58,237,.30) !important;
+}
+#li-module .section-row .btn-primary:hover {
+  background: #6d28d9 !important;
+  box-shadow: 0 6px 20px rgba(124,58,237,.40) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Espaciado entre elementos principales dentro del content */
+#li-module .kpi-grid {
+  margin-bottom: 18px !important;
+}
+
+#li-module .filter-strip {
+  margin-bottom: 10px !important;
+  margin-top: 0 !important;
+}
+
+/* Buscador dentro de la card de tabla */
+#li-module .card > div[style*="padding:14px"],
+#li-module .card > div[style*="padding: 14px"] {
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* Separación entre la filter-strip y la card de tabla */
+#li-module .filter-strip + .card {
+  margin-top: 0;
+}
+
+/* KPI grid (almacén) */
+#li-module [id$="-kpi-grid"] {
+  margin-bottom: 18px !important;
+}
+
+/* Espaciado en vista-storage y vista-partners */
+#li-module #view-storage .section-row,
+#li-module #view-partners .section-row,
+#li-module #view-clients .section-row,
+#li-module #view-users .section-row {
+  margin-bottom: 18px !important;
+}
+
+/* Scanner input en envíos — asegurar tamaño correcto */
+#li-module #scanner-input {
+  width: 220px !important;
+}
+
+/* Entity grid spacing */
+#li-module .entity-grid {
+  gap: 14px !important;
+}
+
+
+/* Cuando el aside.sidebar tiene display:none (sidebar principal activo),
+   el .main debe ocupar el 100% sin margin-left */
+#li-module aside.sidebar[style*="display:none"],
+#li-module aside.sidebar[style*="display: none"] {
+  width: 0 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  border: none !important;
+}
+
+/* Anular el margin-left del .main cuando el sidebar interno está oculto */
+#view-logistica .main,
+#li-module .main {
+  margin-left: 0 !important;
+  width: 100% !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   BOTONES DE MODAL — tama\u00f1o grande, igual al resto de la app principal
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Pie del modal: todos los botones grandes */
+#li-module .modal-foot {
+  gap: 12px !important;
+  padding: 20px 24px !important;
+}
+#li-module .modal-foot .btn {
+  padding: 11px 24px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+  gap: 8px !important;
+  min-height: 44px !important;
+}
+#li-module .modal-foot .btn svg {
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  min-height: 15px !important;
+  max-width: 15px !important;
+  max-height: 15px !important;
+  flex-shrink: 0 !important;
+}
+#li-module .modal-foot .btn-primary {
+  background: #7c3aed !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(124,58,237,.30) !important;
+  border: none !important;
+}
+#li-module .modal-foot .btn-primary:hover {
+  background: #6d28d9 !important;
+  box-shadow: 0 6px 20px rgba(124,58,237,.40) !important;
+  transform: translateY(-1px) !important;
+}
+#li-module .modal-foot .btn-ghost {
+  border: 1.5px solid var(--border2) !important;
+  color: var(--text2) !important;
+  background: transparent !important;
+}
+#li-module .modal-foot .btn-ghost:hover {
+  background: var(--bg3) !important;
+  color: var(--text) !important;
+  border-color: var(--border2) !important;
+}
+
+/* ── Vista Documentación (view-labels) ─────────────────────────────────────── */
+
+/* El doc-area ya no necesita sus propios estilos de bloque — ahora es solo un contenedor */
+#view-labels .doc-area {
+  display: block !important;
+  height: 100% !important;
+}
+#view-labels .doc-area.hidden {
+  display: none !important;
+}
+#view-labels .doc-area > .card {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Botones de acción dentro de la vista de documentos */
+#li-module #view-labels .btn:not(.btn-sm) {
+  padding: 10px 18px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  gap: 7px !important;
+}
+#li-module #view-labels .btn svg {
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  max-width: 14px !important;
+  flex-shrink: 0 !important;
+}
+#li-module #view-labels .btn-primary {
+  background: #7c3aed !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(124,58,237,.25) !important;
+  border: none !important;
+}
+#li-module #view-labels .btn-primary:hover {
+  background: #6d28d9 !important;
+  box-shadow: 0 4px 14px rgba(124,58,237,.35) !important;
+}
+#li-module #view-labels .btn-ghost {
+  border: 1.5px solid var(--border2) !important;
+  color: var(--text2) !important;
+  background: transparent !important;
+}
+#li-module #view-labels .btn-ghost:hover {
+  background: var(--bg3) !important;
+  color: var(--text) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODO OSCURO COMPLETO — Módulo Logística
+   Responde a AMBOS selectores:
+   · html.dark #li-module  → Tailwind activo (sin JS)
+   · #li-module.dark       → Clase propagada por syncDarkToLogistica() en app.js
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Topbar & Main Content area ── */
+#li-module.dark .topbar-title, html.dark #li-module .topbar-title { color: var(--text); }
+#li-module.dark .topbar-sub,   html.dark #li-module .topbar-sub   { color: var(--text3); }
+#li-module.dark .topbar-date,  html.dark #li-module .topbar-date  { color: var(--text3); }
+#li-module.dark .main,         html.dark #li-module .main         { background: var(--bg); }
+#li-module.dark .content,      html.dark #li-module .content      { background: var(--bg); }
+
+/* ── KPI Cards ── */
+#li-module.dark .kpi-card,
+html.dark #li-module .kpi-card {
+  background: var(--bg2);
+  border-color: var(--border);
+}
+#li-module.dark .kpi-label, html.dark #li-module .kpi-label { color: var(--text3); }
+#li-module.dark .kpi-value, html.dark #li-module .kpi-value { color: var(--text); }
+#li-module.dark .kpi-delta, html.dark #li-module .kpi-delta { color: var(--text3); }
+#li-module.dark .kpi-bar,   html.dark #li-module .kpi-bar   { background: var(--border); }
+
+/* ── Card surfaces ── */
+#li-module.dark .card,
+html.dark #li-module .card {
+  background: var(--bg2);
+  border-color: var(--border);
+}
+#li-module.dark .card-title, html.dark #li-module .card-title { color: var(--text2); }
+
+/* ── Table ── */
+#li-module.dark thead th,
+html.dark #li-module thead th {
+  background: var(--bg3);
+  color: var(--text3);
+  border-bottom-color: var(--border);
+}
+#li-module.dark tbody td,
+html.dark #li-module tbody td {
+  color: var(--text2);
+  border-bottom-color: var(--border);
+}
+#li-module.dark tbody tr:hover td, html.dark #li-module tbody tr:hover td { background: var(--bg3); }
+#li-module.dark .td-mono, html.dark #li-module .td-mono { color: var(--text); }
+#li-module.dark .td-main, html.dark #li-module .td-main { color: var(--text); }
+
+/* ── Section row / dividers ── */
+#li-module.dark .section-row,  html.dark #li-module .section-row  { border-bottom-color: var(--border); }
+#li-module.dark .divider,      html.dark #li-module .divider      { background: var(--border); }
+#li-module.dark .doc-area-head,html.dark #li-module .doc-area-head{ border-bottom-color: var(--border); color: var(--text3); }
+
+/* ── Filter strip ── */
+#li-module.dark .filter-chip,
+html.dark #li-module .filter-chip {
+  border-color: var(--border2);
+  color: var(--text2);
+}
+#li-module.dark .filter-chip:hover,  html.dark #li-module .filter-chip:hover  { border-color: var(--accent); color: var(--accent); }
+#li-module.dark .filter-chip.active, html.dark #li-module .filter-chip.active { background: var(--accent-soft); border-color: var(--accent-mid); color: var(--accent); }
+
+/* ── Search input ── */
+#li-module.dark .search-input,
+html.dark #li-module .search-input {
+  border-color: var(--border2);
+  background: var(--bg3);
+  color: var(--text);
+}
+
+/* ── Entity cards ── */
+#li-module.dark .entity-card,
+html.dark #li-module .entity-card {
+  background: var(--bg2);
+  border-color: var(--border);
+}
+#li-module.dark .entity-card:hover, html.dark #li-module .entity-card:hover { border-color: var(--border2); }
+#li-module.dark .entity-name,  html.dark #li-module .entity-name  { color: var(--text); }
+#li-module.dark .entity-row,   html.dark #li-module .entity-row   { color: var(--text3); }
+#li-module.dark .entity-tag,   html.dark #li-module .entity-tag   { background: var(--bg3); color: var(--text3); border-color: var(--border); }
+#li-module.dark .entity-avatar,html.dark #li-module .entity-avatar{ background: var(--accent-icon); color: var(--accent); }
+
+/* ── Detail cells ── */
+#li-module.dark .detail-cell,     html.dark #li-module .detail-cell     { background: var(--bg2); border-color: var(--border); }
+#li-module.dark .detail-cell-key, html.dark #li-module .detail-cell-key { color: var(--text3); }
+#li-module.dark .detail-cell-val, html.dark #li-module .detail-cell-val { color: var(--text); }
+
+/* ── Modals ── */
+#li-module.dark .modal,
+html.dark #li-module .modal {
+  background: var(--bg2);
+  border-color: var(--border);
+}
+#li-module.dark .modal-head,       html.dark #li-module .modal-head       { border-bottom-color: var(--border); }
+#li-module.dark .modal-head-title, html.dark #li-module .modal-head-title { color: var(--text); }
+#li-module.dark .modal-foot,       html.dark #li-module .modal-foot       { border-top-color: var(--border); }
+#li-module.dark .modal-body,       html.dark #li-module .modal-body       { background: var(--bg2); }
+
+/* ── Form inputs ── */
+#li-module.dark input[type=text],
+#li-module.dark input[type=email],
+#li-module.dark input[type=number],
+#li-module.dark select,
+#li-module.dark textarea,
+html.dark #li-module input[type=text],
+html.dark #li-module input[type=email],
+html.dark #li-module input[type=number],
+html.dark #li-module select,
+html.dark #li-module textarea {
+  background: var(--bg3);
+  border-color: var(--border2);
+  color: var(--text);
+}
+#li-module.dark input:focus,
+#li-module.dark select:focus,
+#li-module.dark textarea:focus,
+html.dark #li-module input:focus,
+html.dark #li-module select:focus,
+html.dark #li-module textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ── Status dropdown ── */
+#li-module.dark .status-dropdown,
+html.dark #li-module .status-dropdown {
+  background: var(--bg2);
+  border-color: var(--border2);
+  box-shadow: 0 12px 36px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.3);
+}
+#li-module.dark .status-opt, html.dark #li-module .status-opt { color: var(--text2); }
+#li-module.dark .status-opt:hover, html.dark #li-module .status-opt:hover { background: var(--bg3); color: var(--text); }
+
+/* ── Print receipt / ticket wrap ── */
+#li-module.dark .ticket-wrap, html.dark #li-module .ticket-wrap { background: var(--bg3); }
+
+/* ── User chip ── */
+#li-module.dark .user-chip,      html.dark #li-module .user-chip      { background: var(--bg3); border-color: var(--border2); }
+#li-module.dark .user-chip:hover,html.dark #li-module .user-chip:hover{ background: var(--border); }
+#li-module.dark .user-chip-name, html.dark #li-module .user-chip-name { color: var(--text); }
+#li-module.dark .user-chip-role, html.dark #li-module .user-chip-role { color: var(--text3); }
+#li-module.dark .user-menu,
+html.dark #li-module .user-menu {
+  background: var(--bg2);
+  border-color: var(--border2);
+  box-shadow: 0 8px 24px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.3);
+}
+#li-module.dark .user-menu-item, html.dark #li-module .user-menu-item { color: var(--text2); }
+#li-module.dark .user-menu-item:hover, html.dark #li-module .user-menu-item:hover { background: var(--bg3); color: var(--text); }
+#li-module.dark .user-menu-sep,  html.dark #li-module .user-menu-sep  { background: var(--border); }
+
+/* ── Modal Resguardo de Palet (colores hardcoded → dark) ── */
+#li-module.dark #modal-pallet-receipt .modal,
+html.dark #li-module #modal-pallet-receipt .modal {
+  background: var(--bg2) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5) !important;
+}
+#li-module.dark #modal-pallet-receipt .modal-head,
+html.dark #li-module #modal-pallet-receipt .modal-head {
+  background: var(--bg2) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+#li-module.dark #modal-pallet-receipt .modal-head-title,
+html.dark #li-module #modal-pallet-receipt .modal-head-title { color: var(--text) !important; }
+#li-module.dark #modal-pallet-receipt .modal-body,
+html.dark #li-module #modal-pallet-receipt .modal-body { background: var(--bg3) !important; }
+#li-module.dark #modal-pallet-receipt .btn-ghost,
+html.dark #li-module #modal-pallet-receipt .btn-ghost {
+  border-color: var(--border2) !important;
+  color: var(--text2) !important;
+  background: transparent !important;
+}
+#li-module.dark #modal-pallet-receipt .btn-ghost:hover,
+html.dark #li-module #modal-pallet-receipt .btn-ghost:hover {
+  background: var(--bg3) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+/* ── Sync bar ── */
+#li-module.dark #li-sync-bar, html.dark #li-module #li-sync-bar {
+  background: var(--accent-soft);
+  border-bottom-color: var(--accent-mid);
+  color: var(--accent);
+}
+
+/* ── Btn icon ── */
+#li-module.dark .btn-icon, html.dark #li-module .btn-icon { color: var(--text3); }
+#li-module.dark .btn-icon:hover, html.dark #li-module .btn-icon:hover { background: var(--bg3); color: var(--text); }
+
+/* ── Section sub ── */
+#li-module.dark .section-sub, html.dark #li-module .section-sub { color: var(--text3) !important; }
+
+/* ── Li-action-bar ── */
+#li-module.dark .li-action-bar, html.dark #li-module .li-action-bar { border-bottom-color: var(--border); }
+
+/* ── Dark sidebar overrides (también responded al selector html.dark) ── */
+#li-module.dark .sidebar, html.dark #li-module .sidebar {
+  background: var(--bg2);
+  border-right-color: var(--border);
+  box-shadow: 2px 0 12px rgba(0,0,0,.3);
+}
+#li-module.dark .topbar, html.dark #li-module .topbar {
+  background: var(--bg2);
+  border-bottom-color: var(--border);
+}
+#li-module.dark .nav-item.active, html.dark #li-module .nav-item.active {
+  background: var(--accent);
+  box-shadow: 0 2px 8px rgba(168,85,247,.3);
+}
+#li-module.dark .nav-badge, html.dark #li-module .nav-badge {
+  background: var(--border2);
+  color: var(--text2);
+}
+
+/* ── Status pills ── */
+#li-module.dark .pill-recogido,  html.dark #li-module .pill-recogido  { background: rgba(148,163,184,.15); color: var(--text2); border-color: rgba(148,163,184,.25); }
+#li-module.dark .pill-empacado,  html.dark #li-module .pill-empacado  { background: rgba(245,158,11,.18);  color: #fbbf24; border-color: rgba(245,158,11,.3); }
+#li-module.dark .pill-transito,  html.dark #li-module .pill-transito  { background: rgba(168,85,247,.18);  color: #d8b4fe; border-color: rgba(168,85,247,.3); }
+#li-module.dark .pill-entregado, html.dark #li-module .pill-entregado { background: rgba(34,197,94,.18);   color: #4ade80; border-color: rgba(34,197,94,.3); }
+
+/* ── Status pill buttons ── */
+#li-module.dark .status-pill-btn[data-s="Recogido"],    html.dark #li-module .status-pill-btn[data-s="Recogido"]    { background: rgba(148,163,184,.15) !important; color: var(--text2) !important; border: 1px solid rgba(148,163,184,.25) !important; }
+#li-module.dark .status-pill-btn[data-s="Empacado"],    html.dark #li-module .status-pill-btn[data-s="Empacado"]    { background: rgba(245,158,11,.18) !important;  color: #fbbf24 !important; border: 1px solid rgba(245,158,11,.3) !important; }
+#li-module.dark .status-pill-btn[data-s="En Tránsito"], html.dark #li-module .status-pill-btn[data-s="En Tránsito"] { background: rgba(168,85,247,.18) !important;   color: #d8b4fe !important; border: 1px solid rgba(168,85,247,.3) !important; }
+#li-module.dark .status-pill-btn[data-s="Entregado"],   html.dark #li-module .status-pill-btn[data-s="Entregado"]   { background: rgba(34,197,94,.18) !important;   color: #4ade80 !important; border: 1px solid rgba(34,197,94,.3) !important; }
+
+
+/* ══════════════════════════════════════════════════════════
+   MODAL REDESIGN — Moderno, claro, con transparencias
+   Sobreescribe los estilos por defecto del módulo logística
+══════════════════════════════════════════════════════════ */
+
+/* Overlay backdrop con blur */
+#li-module .overlay,
+html body .overlay {
+    background: rgba(15, 10, 40, 0.45) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    animation: overlayFadeIn .25s ease both !important;
+}
+@keyframes overlayFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Card del modal */
+#li-module .modal,
+html body .modal {
+    background: rgba(255, 255, 255, 0.97) !important;
+    border: 1px solid rgba(139, 92, 246, 0.12) !important;
+    border-radius: 24px !important;
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.8),
+        0 8px 32px rgba(100, 60, 220, 0.1),
+        0 32px 80px rgba(0, 0, 0, 0.18) !important;
+    overflow: hidden !important;
+    animation: modalPop .38s cubic-bezier(.16,1,.3,1) both !important;
+}
+@keyframes modalPop {
+    from { opacity: 0; transform: translateY(20px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Acento de color en el borde superior */
+#li-module .modal::before,
+html body .modal::before {
+    content: '' !important;
+    display: block !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, #7c3ae3, #6366f1, #818cf8) !important;
+    flex-shrink: 0 !important;
+}
+
+/* Cabecera del modal */
+#li-module .modal-head,
+html body .modal-head {
+    padding: 18px 24px 16px !important;
+    border-bottom: 1px solid #f0f2f8 !important;
+    background: transparent !important;
+}
+#li-module .modal-head-title,
+html body .modal-head-title {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    letter-spacing: -0.02em !important;
+}
+
+/* Botón cerrar (X) */
+#li-module .modal-head .btn-icon,
+html body .modal-head .btn-icon {
+    background: #f8f9fc !important;
+    border: 1px solid #e8eaf0 !important;
+    border-radius: 8px !important;
+    color: #64748b !important;
+    transition: all .15s ease !important;
+}
+#li-module .modal-head .btn-icon:hover,
+html body .modal-head .btn-icon:hover {
+    background: #fee2e2 !important;
+    border-color: #fca5a5 !important;
+    color: #dc2626 !important;
+}
+
+/* Cuerpo del modal */
+#li-module .modal-body,
+html body .modal-body {
+    padding: 20px 24px !important;
+    background: transparent !important;
+}
+
+/* Pie del modal */
+#li-module .modal-foot,
+html body .modal-foot {
+    padding: 14px 24px !important;
+    border-top: 1px solid #f0f2f8 !important;
+    background: #fafbff !important;
+}
+
+/* Inputs dentro del modal */
+#li-module .modal input[type="text"],
+#li-module .modal input[type="number"],
+#li-module .modal input[type="email"],
+#li-module .modal input[type="tel"],
+#li-module .modal input[type="date"],
+#li-module .modal select,
+#li-module .modal textarea {
+    background: #f8f9fc !important;
+    border: 1.5px solid #e8eaf0 !important;
+    border-radius: 10px !important;
+    color: #0f172a !important;
+    transition: border-color .18s ease, box-shadow .18s ease !important;
+}
+#li-module .modal input:focus,
+#li-module .modal select:focus,
+#li-module .modal textarea:focus {
+    background: #ffffff !important;
+    border-color: #7c3ae3 !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1) !important;
+    outline: none !important;
+}
+
+/* Labels dentro del modal */
+#li-module .modal .field-label,
+#li-module .modal label {
+    color: #64748b !important;
+    font-weight: 600 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: .07em !important;
+}
+
+/* Botón primario del modal */
+#li-module .modal-foot .btn-primary,
+html body .modal-foot .btn-primary {
+    background: #7c3ae3 !important;
+    border-color: #7c3ae3 !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 16px rgba(124,58,237,0.3) !important;
+    transition: all .18s ease !important;
+}
+#li-module .modal-foot .btn-primary:hover,
+html body .modal-foot .btn-primary:hover {
+    background: #6d28d9 !important;
+    box-shadow: 0 6px 20px rgba(124,58,237,0.4) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Botón ghost del modal */
+#li-module .modal-foot .btn-ghost,
+html body .modal-foot .btn-ghost {
+    background: #f8f9fc !important;
+    border: 1.5px solid #e8eaf0 !important;
+    color: #64748b !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    transition: all .18s ease !important;
+}
+#li-module .modal-foot .btn-ghost:hover,
+html body .modal-foot .btn-ghost:hover {
+    background: #f0f2f8 !important;
+    color: #374151 !important;
+}
+
+/* Lista de clientes en el modal de nuevo envío */
+#li-module .modal #client-list > div,
+#li-module .modal #client-list > a {
+    border-radius: 10px !important;
+    transition: background .15s ease !important;
+}
+#li-module .modal #client-list > div:hover {
+    background: #f5f3ff !important;
+}
+
+/* Selección de client-item activo */
+#li-module .client-item-selected,
+#li-module .selected-client-row {
+    background: #f5f3ff !important;
+    border: 1.5px solid rgba(124,58,237,0.2) !important;
+    border-radius: 12px !important;
+}
+
+/* Scrollbar dentro del modal */
+#li-module .modal-body::-webkit-scrollbar { width: 5px; }
+#li-module .modal-body::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 8px; }
+#li-module .modal-body::-webkit-scrollbar-thumb:hover { background: #c7d0e0; }
+
+
+/* ── Chips de tipo: Palet / Paquete ── */
+.st-type-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 13px;
+    flex-shrink: 0;
+    transition: transform .15s;
+}
+.st-type-chip:hover { transform: scale(1.12); }
+
+/* Palet — azul índigo */
+.st-type-palet {
+    background: rgba(79,70,229,0.1);
+    border: 1.5px solid rgba(79,70,229,0.22);
+    color: #4f46e5;
+}
+
+/* Paquete — violeta */
+.st-type-paquete {
+    background: rgba(124,58,237,0.1);
+    border: 1.5px solid rgba(124,58,237,0.22);
+    color: #7c3ae3;
+}
+
+/* ── Context banners dentro del módulo logística ── */
+#li-module .ctx-banner {
+    margin-bottom: 16px;
+    background: rgba(124,58,237,0.05) !important;
+    border: 1px solid rgba(124,58,237,0.12) !important;
+    border-radius: 12px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#li-module .ctx-banner-ico {
+    font-size: 13px;
+    color: #7c3ae3;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(124,58,237,0.1);
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+#li-module .ctx-banner-title {
+    font-size: 12.5px; font-weight: 700; color: #7c3ae3;
+}
+#li-module .ctx-banner-sep {
+    font-size: 12px; color: #c4b5fd; margin: 0 6px;
+}
+#li-module .ctx-banner-text {
+    font-size: 12px; color: var(--text3, #64748b); font-weight: 400;
+}
+
+/* ── Unificar border-radius de inputs del módulo logística ── */
+#li-module input[type="text"],
+#li-module input[type="search"],
+#li-module input[type="number"],
+#li-module input[type="email"],
+#li-module select,
+#li-module textarea {
+    border-radius: 10px !important;
+}
+
+/* ── Unificar inputs en la action bar de logística ── */
+#li-module .li-action-bar input {
+    border-radius: 10px !important;
+    height: 38px !important;
+}
+
+/* ── Botón Registrar entrada — estilo coherente con el resto ── */
+#li-module #view-storage .btn.btn-primary {
+    background: #7c3ae3 !important;
+    border-radius: 12px !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 14px rgba(124,58,237,0.28) !important;
+}
+#li-module #view-storage .btn.btn-primary:hover {
+    background: #6d28d9 !important;
+    box-shadow: 0 6px 20px rgba(124,58,237,0.38) !important;
+    transform: translateY(-1px) !important;
+}

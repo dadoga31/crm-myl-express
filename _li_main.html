@@ -1,0 +1,46 @@
+﻿<div class="main">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <span class="topbar-title" id="tb-title">Envíos</span>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-sub" id="tb-sub">Gestión de servicios</span>
+    <div class="topbar-right">
+      <span class="topbar-date" id="topbar-date"></span>
+      <button id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema"
+        style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border2);
+          background:var(--bg3);cursor:pointer;display:flex;align-items:center;
+          justify-content:center;color:var(--text2);transition:all .15s;flex-shrink:0"
+        onmouseover="this.style.background='var(--border)';this.style.color='var(--text)'"
+        onmouseout="this.style.background='var(--bg3)';this.style.color='var(--text2)'">
+        <svg id="theme-icon" viewBox="0 0 16 16" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8">
+          <path d="M8 1v1M8 14v1M1 8H0M16 8h-1M2.9 2.9l.7.7M12.4 12.4l.7.7M2.9 13.1l.7-.7M12.4 3.6l.7-.7"/>
+          <circle cx="8" cy="8" r="3"/>
+        </svg>
+      </button>
+      <!-- User chip -->
+      <div class="user-chip" id="user-chip" onclick="toggleUserMenu(event)">
+        <div class="user-avatar" id="user-avatar" style="background:#7c3aed">AD</div>
+        <div>
+          <div class="user-chip-name" id="user-chip-name">Admin</div>
+          <div class="user-chip-role" id="user-chip-role">Administrador</div>
+        </div>
+        <svg viewBox="0 0 16 16" style="width:12px;height:12px;stroke:var(--text3);fill:none;stroke-width:2;margin-left:2px;flex-shrink:0"><path d="M4 6l4 4 4-4"/></svg>
+        <div class="user-menu" id="user-menu">
+          <div class="user-menu-item" id="um-profile" onclick="openMyProfile(event)">
+            <svg viewBox="0 0 16 16"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+            Mi perfil
+          </div>
+          <div class="user-menu-item" id="um-users" onclick="showView('users');closeUserMenu()">
+            <svg viewBox="0 0 16 16"><circle cx="5" cy="5" r="2.5"/><path d="M1 13c0-2.8 1.8-5 4-5M10 6l2 2 4-4"/></svg>
+            Gestión de usuarios
+          </div>
+          <div class="user-menu-sep"></div>
+          <div class="user-menu-item danger" onclick="doLogout()">
+            <svg viewBox="0 0 16 16"><path d="M10 8H2M4 5l-3 3 3 3M7 4V2h7v12H7v-2"/></svg>
+            Cerrar sesión
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

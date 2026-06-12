@@ -1,0 +1,18 @@
+{
+  "name": "logispro-app",
+  "version": "1.0.0",
+  "description": "Sistema de Facturación Logística",
+  "main": "servidor.js",
+  "scripts": {
+    "start": "node servidor.js",
+    "dev": "nodemon --ignore copias_seguridad/ --ignore base_de_datos.json --ignore \"datos.sqlite*\" servidor.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-windows": "^1.0.0-beta.8",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

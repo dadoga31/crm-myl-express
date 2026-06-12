@@ -1,0 +1,863 @@
+﻿            <!-- MÓDULO DE LOGÍSTICA — Integrado desde LI Operations -->
+            <section id="view-logistica" class="section-view hidden" style="padding:0;margin:-32px;height:100vh;">
+              <div id="li-module">
+                <div id="li-sync-bar" class="li-sync-bar" style="display:none">
+                  <svg viewBox="0 0 16 16"><path d="M14 8A6 6 0 112 8M14 8V4M14 8h-4"/></svg>
+                  Sincronizando datos con el servidor...
+                </div>
+                <aside class="sidebar">
+  <div class="sidebar-logo" style="padding:20px 20px 18px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <div style="width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg viewBox="0 0 16 16" style="width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.8"><path d="M1 4h14M1 4v9a1 1 0 001 1h12a1 1 0 001-1V4M1 4l2-3h10l2 3M6 8h4"/></svg>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.3px;line-height:1.1">LI Operations</div>
+        <div style="font-size:9px;font-weight:600;color:var(--text3);letter-spacing:1.2px;text-transform:uppercase;margin-top:1px">Gestión de Operaciones</div>
+      </div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <div class="nav-section-label">Operaciones</div>
+      <button class="nav-item active" onclick="showView('shipments')" id="nav-shipments">
+        <svg viewBox="0 0 16 16"><path d="M1 4h14M1 4v9a1 1 0 001 1h12a1 1 0 001-1V4M1 4l2-3h10l2 3M6 8h4"/></svg>
+        Envíos
+        <span class="nav-badge" id="nb-shipments">0</span>
+      </button>
+      <button class="nav-item" onclick="showView('storage')" id="nav-storage">
+        <svg viewBox="0 0 16 16"><rect x="1" y="2" width="14" height="4" rx="1"/><rect x="1" y="8" width="14" height="4" rx="1"/><path d="M4 4h1M4 10h1"/></svg>
+        Almacén Palets
+        <span class="nav-badge" id="nb-storage">0</span>
+      </button>
+      <button class="nav-item" onclick="showView('labels')">
+        <svg viewBox="0 0 16 16"><rect x="1" y="3" width="14" height="10" rx="1"/><path d="M1 6h14M4 9h3M4 11h2"/></svg>
+        Documentos
+      </button>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Entidades</div>
+      <button class="nav-item" onclick="showView('clients')" id="nav-clients">
+        <svg viewBox="0 0 16 16"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        Clientes
+        <span class="nav-badge" id="nb-clients">0</span>
+      </button>
+      <button class="nav-item" onclick="showView('partners')" id="nav-partners">
+        <svg viewBox="0 0 16 16"><path d="M10 2l4 4-4 4M6 6H2v6a2 2 0 002 2h8a2 2 0 002-2v-2"/></svg>
+        Colaboradoras
+        <span class="nav-badge" id="nb-partners">0</span>
+      </button>
+    </div>
+  </nav>
+    <div class="nav-section" id="admin-section" style="display:none">
+      <div class="nav-section-label">Administración</div>
+      <button class="nav-item" onclick="showView('users')" id="nav-users">
+        <svg viewBox="0 0 16 16"><circle cx="5" cy="5" r="2.5"/><path d="M1 13c0-2.8 1.8-5 4-5M10 6l2 2 4-4"/></svg>
+        Usuarios
+        <span class="nav-badge" id="nb-users">0</span>
+      </button>
+    </div>
+  </div><!-- /nav -->
+  <div class="sidebar-footer">
+    <div class="sidebar-status"><span class="sidebar-status-dot"></span>Sistema activo</div>
+    <div class="sidebar-footer-text" id="sidebar-date-display"></div>
+  </div>
+</aside>
+                <!-- ── MAIN AREA ───────────────────────────────────────────────────────────── -->
+<div class="main">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <span class="topbar-title" id="tb-title">Envíos</span>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-sub" id="tb-sub">Gestión de servicios</span>
+    <div class="topbar-right">
+      <span class="topbar-date" id="topbar-date"></span>
+      <button id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema"
+        style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border2);
+          background:var(--bg3);cursor:pointer;display:flex;align-items:center;
+          justify-content:center;color:var(--text2);transition:all .15s;flex-shrink:0"
+        onmouseover="this.style.background='var(--border)';this.style.color='var(--text)'"
+        onmouseout="this.style.background='var(--bg3)';this.style.color='var(--text2)'">
+        <svg id="theme-icon" viewBox="0 0 16 16" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8">
+          <path d="M8 1v1M8 14v1M1 8H0M16 8h-1M2.9 2.9l.7.7M12.4 12.4l.7.7M2.9 13.1l.7-.7M12.4 3.6l.7-.7"/>
+          <circle cx="8" cy="8" r="3"/>
+        </svg>
+      </button>
+      <!-- User chip -->
+      <div class="user-chip" id="user-chip" onclick="toggleUserMenu(event)">
+        <div class="user-avatar" id="user-avatar" style="background:#7c3aed">AD</div>
+        <div>
+          <div class="user-chip-name" id="user-chip-name">Admin</div>
+          <div class="user-chip-role" id="user-chip-role">Administrador</div>
+        </div>
+        <svg viewBox="0 0 16 16" style="width:12px;height:12px;stroke:var(--text3);fill:none;stroke-width:2;margin-left:2px;flex-shrink:0"><path d="M4 6l4 4 4-4"/></svg>
+        <div class="user-menu" id="user-menu">
+          <div class="user-menu-item" id="um-profile" onclick="openMyProfile(event)">
+            <svg viewBox="0 0 16 16"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+            Mi perfil
+          </div>
+          <div class="user-menu-item" id="um-users" onclick="showView('users');closeUserMenu()">
+            <svg viewBox="0 0 16 16"><circle cx="5" cy="5" r="2.5"/><path d="M1 13c0-2.8 1.8-5 4-5M10 6l2 2 4-4"/></svg>
+            Gestión de usuarios
+          </div>
+          <div class="user-menu-sep"></div>
+          <div class="user-menu-item danger" onclick="doLogout()">
+            <svg viewBox="0 0 16 16"><path d="M10 8H2M4 5l-3 3 3 3M7 4V2h7v12H7v-2"/></svg>
+            Cerrar sesión
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── ENVÍOS (vista principal) ──────────────────────────────────────── -->
+    <div id="view-shipments">
+      <div class="section-row" style="margin-bottom:16px">
+        <div>
+          <div class="section-heading">Envíos</div>
+          <div class="section-sub" id="ship-sub"></div>
+        </div>
+        <div class="flex gap-8" style="align-items:center">
+          <div style="position:relative">
+            <input type="text" id="scanner-input"
+              placeholder="Escanear código de barras…"
+              style="padding:7px 12px 7px 34px;border:1px solid var(--border2);border-radius:6px;background:var(--bg3);font-size:13px;color:var(--text);font-family:var(--mono);width:230px;outline:none;transition:border-color .12s"
+              onfocus="this.style.borderColor='var(--accent)'"
+              onblur="this.style.borderColor='var(--border2)'"
+              onkeydown="handleScannerKey(event)">
+            <svg viewBox="0 0 16 16" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;stroke:var(--text3);fill:none;stroke-width:1.8;pointer-events:none">
+              <path d="M1 4V2h2M13 2h2v2M1 12v2h2M13 14h2v-2M3 7h1M6 7h1M9 7h1M12 7h1M3 9h1M6 9h1M9 9h1M12 9h1"/>
+            </svg>
+          </div>
+          <button class="btn btn-primary" onclick="openNewShipment()">
+            <svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+            Nuevo envío
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI widgets -->
+      <div class="kpi-grid" id="kpi-grid" style="margin-bottom:20px"></div>
+
+      <div class="filter-strip" id="filter-strip"></div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="tbl-wrap"><table>
+          <thead><tr>
+            <th>Tracking</th><th>Cliente</th><th>Origen</th><th>Destino</th>
+            <th>Peso</th><th>Bultos</th><th>Subcontrata</th><th>Estado</th><th>Acciones</th>
+          </tr></thead>
+          <tbody id="ship-tbody"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- ── ETIQUETAS ──────────────────────────────────────────────────────── -->
+    <div id="view-labels" class="hidden">
+      <div class="section-row">
+        <div>
+          <div class="section-heading">Generador de documentos</div>
+          <div class="section-sub">Etiquetas de envío y resguardos de entrega</div>
+        </div>
+      </div>
+      <div class="card mb-12">
+        <div class="card-header"><span class="card-title">Seleccionar envío</span></div>
+        <div class="field" style="max-width:420px">
+          <label class="field-label">Código de tracking</label>
+          <select id="lbl-tracking" onchange="loadDocShipment()">
+            <option value="">Seleccionar envío…</option>
+          </select>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="doc-area hidden" id="label-area">
+          <div class="doc-area-head">Etiqueta de envío — Impresión A6 / Térmica</div>
+          <img id="label-img" class="doc-preview-img" alt=""/>
+          <div class="flex gap-8 mt-8">
+            <button class="btn btn-primary btn-sm" onclick="printDoc('label-img', 'A6')">
+              <svg viewBox="0 0 16 16"><path d="M4 5V2h8v3M2 5h12a1 1 0 011 1v5a1 1 0 01-1 1h-2v3H4v-3H2a1 1 0 01-1-1V6a1 1 0 011-1z"/><path d="M4 11h8"/></svg>
+              Imprimir etiqueta
+            </button>
+            <a id="label-dl" class="btn btn-ghost btn-sm" download>
+              <svg viewBox="0 0 16 16"><path d="M8 2v8M5 7l3 3 3-3M2 12v2h12v-2"/></svg>
+              Descargar PNG
+            </a>
+          </div>
+        </div>
+        <div class="doc-area hidden" id="receipt-area">
+          <div class="doc-area-head">Resguardo de entrega — Comprobante oficial</div>
+          <img id="receipt-img" class="doc-preview-img" alt=""/>
+          <div class="flex gap-8 mt-8">
+            <button class="btn btn-primary btn-sm" onclick="printDoc('receipt-img', 'ticket')">
+              <svg viewBox="0 0 16 16"><path d="M4 5V2h8v3M2 5h12a1 1 0 011 1v5a1 1 0 01-1 1h-2v3H4v-3H2a1 1 0 01-1-1V6a1 1 0 011-1z"/><path d="M4 11h8"/></svg>
+              Imprimir resguardo
+            </button>
+            <a id="receipt-dl" class="btn btn-ghost btn-sm" download>
+              <svg viewBox="0 0 16 16"><path d="M8 2v8M5 7l3 3 3-3M2 12v2h12v-2"/></svg>
+              Descargar PNG
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CLIENTES ───────────────────────────────────────────────────────── -->
+    <div id="view-clients" class="hidden">
+      <div class="section-row">
+        <div>
+          <div class="section-heading">Clientes</div>
+          <div class="section-sub" id="cl-sub"></div>
+        </div>
+        <button class="btn btn-primary" onclick="openClientModal()">
+          <svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+          Nuevo cliente
+        </button>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+          <div style="position:relative;flex:1;max-width:360px">
+            <input type="text" id="cl-search" oninput="renderClients()"
+              placeholder="Buscar por nombre, email, teléfono o NIF…"
+              style="padding:7px 12px 7px 32px;width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;font-size:13px;color:var(--text);font-family:var(--font);outline:none">
+            <svg viewBox="0 0 16 16" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:var(--text3);fill:none;stroke-width:1.8;pointer-events:none"><circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l3 3"/></svg>
+          </div>
+          <span id="cl-count" style="font-size:12px;color:var(--text3);font-family:var(--mono);white-space:nowrap"></span>
+        </div>
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">Cliente</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">Email</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">Teléfono</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">NIF / CIF</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">Dirección</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3)"></th>
+            </tr>
+          </thead>
+          <tbody id="client-list"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── COLABORADORAS ──────────────────────────────────────────────────── -->
+    <div id="view-partners" class="hidden">
+      <div class="section-row">
+        <div>
+          <div class="section-heading">Empresas Colaboradoras</div>
+          <div class="section-sub">Transportistas subcontratadas</div>
+        </div>
+        <button class="btn btn-primary" onclick="openPartnerModal()">
+          <svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+          Nueva colaboradora
+        </button>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+          <div style="position:relative;flex:1;max-width:360px">
+            <input type="text" id="pt-search" oninput="renderPartners()"
+              placeholder="Buscar por nombre, email o zona…"
+              style="padding:7px 12px 7px 32px;width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;font-size:13px;color:var(--text);font-family:var(--font);outline:none">
+            <svg viewBox="0 0 16 16" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:var(--text3);fill:none;stroke-width:1.8;pointer-events:none"><circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l3 3"/></svg>
+          </div>
+          <span id="pt-count" style="font-size:12px;color:var(--text3);font-family:var(--mono);white-space:nowrap"></span>
+        </div>
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">Empresa</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">Email</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">Teléfono</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">Zonas</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">Tarifa</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3);white-space:nowrap">Estado</th>
+              <th style="padding:10px 18px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--bg3)"></th>
+            </tr>
+          </thead>
+          <tbody id="partner-list"></tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- ── ALMACÉN PALETS ──────────────────────────────────────────────────── -->
+    <div id="view-storage" class="hidden">
+      <div class="section-row">
+        <div>
+          <div class="section-heading">Almacén de Palets</div>
+          <div class="section-sub" id="st-sub"></div>
+        </div>
+        <button class="btn btn-primary" onclick="openNewPallet()">
+          <svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+          Registrar entrada
+        </button>
+      </div>
+
+      <!-- KPI row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px" id="st-kpi-grid"></div>
+
+      <!-- Filter strip -->
+      <div class="filter-strip" id="st-filter-strip"></div>
+
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+          <div style="position:relative;flex:1;max-width:360px">
+            <input type="text" id="st-search" oninput="renderStorageTable()"
+              placeholder="Buscar por código, cliente, ubicación o contenido…"
+              style="padding:7px 12px 7px 32px;width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;font-size:13px;color:var(--text);font-family:var(--font);outline:none">
+            <svg viewBox="0 0 16 16" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:var(--text3);fill:none;stroke-width:1.8;pointer-events:none"><circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l3 3"/></svg>
+          </div>
+          <span id="st-count" style="font-size:12px;color:var(--text3);font-family:var(--mono);white-space:nowrap"></span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>Código ALM</th><th>Cliente</th><th>Ubicación</th>
+              <th>Palets</th><th>Contenido</th>
+              <th>Días</th><th>Estado</th><th></th>
+            </tr></thead>
+            <tbody id="st-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ── USUARIOS ─────────────────────────────────────────────────────────── -->
+    <div id="view-users" class="hidden">
+      <div class="section-row">
+        <div>
+          <div class="section-heading">Gestión de Usuarios</div>
+          <div class="section-sub" id="usr-sub">Administra los accesos al sistema</div>
+        </div>
+        <button class="btn btn-primary" onclick="openUserModal()">
+          <svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+          Nuevo usuario
+        </button>
+      </div>
+
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px" id="usr-kpi-grid"></div>
+
+      <div class="card" style="padding:0;overflow:hidden">
+        <table>
+          <thead><tr>
+            <th>Usuario</th>
+            <th>Nombre completo</th>
+            <th>Rol</th>
+            <th>Último acceso</th>
+            <th>Estado</th>
+            <th></th>
+          </tr></thead>
+          <tbody id="usr-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+
+              </div>
+              <!-- ── MODAL: Nuevo Envío ───────────────────────────────────────────────────── -->
+<div class="overlay hidden" id="modal-shipment">
+  <div class="modal modal-wide">
+    <div class="modal-head">
+      <span class="modal-head-title">Registrar nuevo envío</span>
+      <button class="btn-icon" onclick="closeModal('modal-shipment')"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <div class="modal-body flex-col gap-12">
+
+      <!-- ── CLIENTE ──────────────────────────────────────────────────────── -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <span style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px">Cliente emisor</span>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-ghost btn-sm" id="btn-search-client" onclick="setClientMode('search')" style="border-color:var(--accent);color:var(--accent)">
+              <svg viewBox="0 0 16 16"><circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l3 3"/></svg>
+              Buscar existente
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btn-new-client-inline" onclick="setClientMode('new')">
+              <svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+              Nuevo cliente
+            </button>
+          </div>
+        </div>
+
+        <!-- Selected client display -->
+        <div id="sh-client-selected" class="hidden" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.2);border-radius:8px;margin-bottom:8px">
+          <div style="width:32px;height:32px;border-radius:6px;background:rgba(124,58,237,.12);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent);font-family:var(--mono)" id="sh-client-avatar">—</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:500;color:var(--text)" id="sh-client-name-display">—</div>
+            <div style="font-size:11px;color:var(--text3);font-family:var(--mono)" id="sh-client-detail-display">—</div>
+          </div>
+          <button class="btn-icon" onclick="clearClientSelection()" title="Cambiar cliente"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+        </div>
+
+        <!-- Search mode -->
+        <div id="sh-client-search-panel">
+          <div style="position:relative">
+            <input type="text" id="sh-client-search-input"
+              placeholder="Buscar por nombre, email, teléfono o NIF…"
+              oninput="filterClientSearch()"
+              style="padding:8px 12px 8px 34px;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;font-size:13px;color:var(--text);font-family:var(--font);width:100%;outline:none">
+            <svg viewBox="0 0 16 16" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:var(--text3);fill:none;stroke-width:1.8;pointer-events:none"><circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l3 3"/></svg>
+          </div>
+          <div id="sh-client-results" style="margin-top:6px;max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;background:var(--bg2)"></div>
+        </div>
+
+        <!-- New client inline form -->
+        <div id="sh-client-new-panel" class="hidden">
+          <div style="padding:14px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px">
+            <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px">Datos del nuevo cliente</div>
+            <div class="two-col" style="margin-bottom:10px">
+              <div class="field"><label class="field-label">Nombre / Razón social<span class="req">*</span></label>
+                <input type="text" id="sh-new-cl-name" placeholder="Empresa o persona"></div>
+              <div class="field"><label class="field-label">Email</label>
+                <input type="email" id="sh-new-cl-email" placeholder="correo@ejemplo.com"></div>
+            </div>
+            <div class="two-col" style="margin-bottom:10px">
+              <div class="field"><label class="field-label">Teléfono</label>
+                <input type="text" id="sh-new-cl-phone" placeholder="+34 600 000 000"></div>
+              <div class="field"><label class="field-label">NIF / CIF</label>
+                <input type="text" id="sh-new-cl-tax" placeholder="B-12345678"></div>
+            </div>
+            <div class="field" style="margin-bottom:10px"><label class="field-label">Dirección fiscal</label>
+              <input type="text" id="sh-new-cl-address" placeholder="Calle, número, ciudad"></div>
+            <button class="btn btn-success btn-sm" onclick="saveInlineClient()">
+              <svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg>
+              Guardar y usar este cliente
+            </button>
+          </div>
+        </div>
+
+        <input type="hidden" id="sh-client">
+      </div>
+
+      <div style="height:1px;background:var(--border)"></div>
+
+      <!-- Resto del formulario -->
+      <div class="two-col">
+        <div class="field"><label class="field-label">Empresa subcontrata<span class="req">*</span></label>
+          <select id="sh-partner"><option value="">Seleccionar…</option></select></div>
+        <div class="field" style="align-self:end"><!-- spacer --></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label class="field-label">Ciudad / Almacén origen<span class="req">*</span></label>
+          <input type="text" id="sh-origin" placeholder="p.ej. Madrid — Almacén Central"></div>
+        <div class="field"><label class="field-label">Ciudad destino<span class="req">*</span></label>
+          <input type="text" id="sh-dest" placeholder="p.ej. Barcelona"></div>
+      </div>
+      <div class="form-grid-3">
+        <div class="field"><label class="field-label">Peso (kg)<span class="req">*</span></label>
+          <input type="number" id="sh-weight" step="0.1" min="0.1"></div>
+        <div class="field"><label class="field-label">Dimensiones (cm)</label>
+          <input type="text" id="sh-dims" placeholder="30×20×15"></div>
+        <div class="field"><label class="field-label">Nº bultos</label>
+          <input type="number" id="sh-units" value="1" min="1"></div>
+      </div>
+      <div class="field"><label class="field-label">Descripción del contenido<span class="req">*</span></label>
+        <input type="text" id="sh-contents" placeholder="Descripción detallada del contenido del envío"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-shipment')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveShipment()">
+        <svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg>
+        Registrar envío
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: Cliente ──────────────────────────────────────────────────────── -->
+<div class="overlay hidden" id="modal-client">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-head-title" id="modal-client-title">Nuevo cliente</span>
+      <button class="btn-icon" onclick="closeModal('modal-client')"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <div class="modal-body flex-col gap-12">
+      <div class="field"><label class="field-label">Nombre / Razón social<span class="req">*</span></label>
+        <input type="text" id="cl-name"></div>
+      <div class="two-col">
+        <div class="field"><label class="field-label">Email<span class="req">*</span></label>
+          <input type="email" id="cl-email"></div>
+        <div class="field"><label class="field-label">Teléfono</label>
+          <input type="text" id="cl-phone"></div>
+      </div>
+      <div class="field"><label class="field-label">Dirección fiscal</label>
+        <input type="text" id="cl-address"></div>
+      <div class="field"><label class="field-label">NIF / CIF</label>
+        <input type="text" id="cl-tax"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-client')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveClient()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: Colaboradora ─────────────────────────────────────────────────── -->
+<div class="overlay hidden" id="modal-partner">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-head-title" id="modal-partner-title">Nueva colaboradora</span>
+      <button class="btn-icon" onclick="closeModal('modal-partner')"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <div class="modal-body flex-col gap-12">
+      <div class="field"><label class="field-label">Nombre empresa<span class="req">*</span></label>
+        <input type="text" id="pt-name"></div>
+      <div class="two-col">
+        <div class="field"><label class="field-label">Email contacto</label>
+          <input type="email" id="pt-email"></div>
+        <div class="field"><label class="field-label">Teléfono</label>
+          <input type="text" id="pt-phone"></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label class="field-label">Zonas de cobertura</label>
+          <input type="text" id="pt-zones"></div>
+        <div class="field"><label class="field-label">Tarifa base (€/kg)</label>
+          <input type="number" id="pt-rate" step="0.01"></div>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="pt-active" checked>
+        <label for="pt-active" class="check-label">Colaboradora activa</label>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-partner')">Cancelar</button>
+      <button class="btn btn-primary" onclick="savePartner()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: Detalle envío ────────────────────────────────────────────────── -->
+<div class="overlay hidden" id="modal-detail">
+  <div class="modal modal-wide">
+    <div class="modal-head">
+      <span class="modal-head-title" id="dt-title"></span>
+      <button class="btn-icon" onclick="closeModal('modal-detail')"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-grid" id="dt-grid"></div>
+      <div class="flex gap-8">
+        <button class="btn btn-ghost btn-sm" onclick="openDocsForShipment()">
+          <svg viewBox="0 0 16 16"><rect x="1" y="3" width="14" height="10" rx="1"/><path d="M1 6h14"/></svg>
+          Generar documentos
+        </button>
+        <div class="field" style="flex:1;max-width:180px">
+          <select id="dt-status-select" onchange="updateStatusFromDetail()">
+            <option value="Recogido">Recogido</option>
+            <option value="Empacado">Empacado</option>
+            <option value="En Tránsito">En Tránsito</option>
+            <option value="Entregado">Entregado</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── MODAL: Nuevo registro de almacenaje ─────────────────────────────────── -->
+<div class="overlay hidden" id="modal-pallet">
+  <div class="modal modal-wide">
+    <div class="modal-head">
+      <span class="modal-head-title" id="modal-pallet-title">Registrar entrada de palets</span>
+      <button class="btn-icon" onclick="closeModal('modal-pallet')"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <div class="modal-body flex-col gap-12">
+
+      <!-- Cliente -->
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Cliente</div>
+        <div class="field">
+          <label class="field-label">Seleccionar cliente<span class="req">*</span></label>
+          <select id="plt-client"><option value="">Seleccionar…</option></select>
+        </div>
+      </div>
+
+      <div style="height:1px;background:var(--border)"></div>
+
+      <!-- Ubicación -->
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Ubicación en nave</div>
+        <div class="form-grid-3">
+          <div class="field">
+            <label class="field-label">Zona<span class="req">*</span></label>
+            <select id="plt-zone">
+              <option value="">Seleccionar…</option>
+              <option value="A">Zona A</option>
+              <option value="B">Zona B</option>
+              <option value="C">Zona C</option>
+              <option value="D">Zona D</option>
+              <option value="FRIO">Cámara Fría</option>
+              <option value="EXT">Exterior Cubierto</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field-label">Fila<span class="req">*</span></label>
+            <input type="text" id="plt-row" placeholder="p.ej. 03" maxlength="4">
+          </div>
+          <div class="field">
+            <label class="field-label">Posición<span class="req">*</span></label>
+            <input type="text" id="plt-pos" placeholder="p.ej. 12" maxlength="4">
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:var(--border)"></div>
+
+      <!-- Mercancía -->
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Mercancía</div>
+        <div class="two-col" style="margin-bottom:12px">
+          <div class="field">
+            <label class="field-label">Nº de palets<span class="req">*</span></label>
+            <input type="number" id="plt-qty" value="1" min="1" max="999">
+          </div>
+          <div class="field">
+            <label class="field-label">Peso total (kg)</label>
+            <input type="number" id="plt-weight" step="0.1" placeholder="0.0">
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:12px">
+          <label class="field-label">Descripción del contenido<span class="req">*</span></label>
+          <input type="text" id="plt-contents" placeholder="Describe la mercancía almacenada">
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label class="field-label">Referencia interna cliente</label>
+            <input type="text" id="plt-ref" placeholder="Opcional — p.ej. pedido, lote…">
+          </div>
+          <div class="field">
+            <label class="field-label">Tarifa almacenaje (€/palet/día)<span class="req">*</span></label>
+            <input type="number" id="plt-rate" step="0.01" value="1.50" min="0">
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:var(--border)"></div>
+
+      <!-- Observaciones -->
+      <div class="field">
+        <label class="field-label">Observaciones</label>
+        <input type="text" id="plt-notes" placeholder="Fragil, temperatura especial, instrucciones de manipulación…">
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-pallet')">Cancelar</button>
+      <button class="btn btn-primary" onclick="savePallet()">
+        <svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg>
+        Registrar entrada
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: Detalle palet ────────────────────────────────────────────────── -->
+<div class="overlay hidden" id="modal-pallet-detail">
+  <div class="modal modal-wide">
+    <div class="modal-head">
+      <div>
+        <span class="modal-head-title" id="plt-dt-title"></span>
+        <div id="plt-dt-badge" style="display:inline-flex;align-items:center;gap:5px;margin-left:12px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600"></div>
+      </div>
+      <button class="btn-icon" onclick="closeModal('modal-pallet-detail')"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Ubicación destacada -->
+      <div id="plt-dt-location" style="display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--accent-soft);border:1px solid var(--accent-mid);border-radius:12px;margin-bottom:20px">
+        <div style="width:48px;height:48px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg viewBox="0 0 16 16" style="width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.8"><rect x="1" y="2" width="14" height="4" rx="1"/><rect x="1" y="8" width="14" height="4" rx="1"/><path d="M4 4h1M4 10h1"/></svg>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Ubicación actual</div>
+          <div style="font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.5px" id="plt-dt-loc-text">—</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;font-weight:600">Días almacenado</div>
+          <div style="font-size:28px;font-weight:700;color:var(--text);letter-spacing:-1px" id="plt-dt-days">—</div>
+        </div>
+      </div>
+
+      <div class="detail-grid" id="plt-dt-grid"></div>
+
+      <!-- Coste acumulado -->
+      <div id="plt-dt-cost-box" style="padding:14px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px">Coste acumulado</div>
+          <div style="font-size:24px;font-weight:700;color:var(--text);letter-spacing:-0.5px" id="plt-dt-cost">—</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.6px">Tarifa</div>
+          <div style="font-size:15px;font-weight:600;color:var(--text)" id="plt-dt-rate">—</div>
+        </div>
+      </div>
+
+      <div class="flex gap-8">
+        <button class="btn btn-primary btn-sm" onclick="printPalletReceipt()">
+          <svg viewBox="0 0 16 16"><path d="M4 5V2h8v3M2 5h12a1 1 0 011 1v5a1 1 0 01-1 1h-2v3H4v-3H2a1 1 0 01-1-1V6a1 1 0 011-1z"/><path d="M4 11h8"/></svg>
+          Imprimir resguardo
+        </button>
+        <button class="btn btn-ghost btn-sm" onclick="changePalletLocation()">
+          <svg viewBox="0 0 16 16"><path d="M2 8h12M10 5l3 3-3 3"/></svg>
+          Cambiar ubicación
+        </button>
+        <button id="plt-dt-retire-btn" class="btn btn-success btn-sm" onclick="retirePallet()">
+          <svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg>
+          Registrar retirada
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: Cambiar ubicación ────────────────────────────────────────────── -->
+<div class="overlay hidden" id="modal-relocate">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-head-title">Cambiar ubicación de palet</span>
+      <button class="btn-icon" onclick="closeModal('modal-relocate')"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <div class="modal-body flex-col gap-12">
+      <div class="form-grid-3">
+        <div class="field">
+          <label class="field-label">Zona<span class="req">*</span></label>
+          <select id="rel-zone">
+            <option value="A">Zona A</option><option value="B">Zona B</option>
+            <option value="C">Zona C</option><option value="D">Zona D</option>
+            <option value="FRIO">Cámara Fría</option><option value="EXT">Exterior Cubierto</option>
+          </select>
+        </div>
+        <div class="field"><label class="field-label">Fila<span class="req">*</span></label><input type="text" id="rel-row" maxlength="4"></div>
+        <div class="field"><label class="field-label">Posición<span class="req">*</span></label><input type="text" id="rel-pos" maxlength="4"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-relocate')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveRelocation()">Guardar nueva ubicación</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: Crear / Editar usuario ─────────────────────────────────────────── -->
+<div class="overlay hidden" id="modal-user">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-head-title" id="modal-user-title">Nuevo usuario</span>
+      <button class="btn-icon" onclick="closeModal('modal-user')"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <div class="modal-body flex-col gap-12">
+
+      <div class="two-col">
+        <div class="field">
+          <label class="field-label">Nombre<span class="req">*</span></label>
+          <input type="text" id="usr-firstname" placeholder="Nombre">
+        </div>
+        <div class="field">
+          <label class="field-label">Apellidos<span class="req">*</span></label>
+          <input type="text" id="usr-lastname" placeholder="Apellidos">
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label class="field-label">Usuario (login)<span class="req">*</span></label>
+          <input type="text" id="usr-username" placeholder="nombre.apellido" autocomplete="off">
+        </div>
+        <div class="field">
+          <label class="field-label">Rol<span class="req">*</span></label>
+          <select id="usr-role">
+            <option value="operario">Operario</option>
+            <option value="consulta">Consulta (solo lectura)</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Email</label>
+        <input type="email" id="usr-email" placeholder="correo@empresa.es">
+      </div>
+
+      <div style="height:1px;background:var(--border)"></div>
+
+      <div id="usr-pass-section">
+        <div id="usr-pass-toggle-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <span style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px">Contraseña</span>
+          <button id="usr-pass-toggle-btn" class="btn btn-ghost btn-sm" onclick="toggleChangePass()" style="display:none">
+            Cambiar contraseña
+          </button>
+        </div>
+        <div id="usr-pass-fields">
+          <div class="two-col">
+            <div class="field">
+              <label class="field-label">Contraseña<span class="req" id="usr-pass-req">*</span></label>
+              <input type="password" id="usr-pass" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+            </div>
+            <div class="field">
+              <label class="field-label">Repetir contraseña<span class="req" id="usr-pass2-req">*</span></label>
+              <input type="password" id="usr-pass2" placeholder="Repetir contraseña" autocomplete="new-password">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-row">
+        <input type="checkbox" id="usr-active" checked>
+        <label for="usr-active" class="check-label">Usuario activo</label>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-user')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveUser()">
+        <svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg>
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: Mi perfil ───────────────────────────────────────────────────────── -->
+<div class="overlay hidden" id="modal-profile">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-head-title">Mi perfil</span>
+      <button class="btn-icon" onclick="closeModal('modal-profile')"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <div class="modal-body flex-col gap-12">
+      <!-- Avatar + name -->
+      <div style="display:flex;align-items:center;gap:16px;padding:16px;background:var(--bg3);border-radius:10px">
+        <div id="prof-avatar" style="width:52px;height:52px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0"></div>
+        <div>
+          <div id="prof-fullname" style="font-size:17px;font-weight:700;color:var(--text)"></div>
+          <div id="prof-username-chip" style="font-size:12px;color:var(--text3);margin-top:2px"></div>
+          <div id="prof-role-badge" style="margin-top:6px"></div>
+        </div>
+      </div>
+      <div style="height:1px;background:var(--border)"></div>
+      <div class="field">
+        <label class="field-label">Nueva contraseña</label>
+        <input type="password" id="prof-pass" placeholder="Dejar en blanco para no cambiar" autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label class="field-label">Confirmar contraseña</label>
+        <input type="password" id="prof-pass2" placeholder="Repetir nueva contraseña" autocomplete="new-password">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-profile')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveProfile()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lógica de la aplicación -->
+<script src="js/app.js"></script>
+
+            </section>

@@ -1,0 +1,29 @@
+# Dependencias
+node_modules/
+
+# Base de datos — datos reales del cliente, NUNCA en git
+datos.sqlite
+datos.sqlite-shm
+datos.sqlite-wal
+base_de_datos.json
+
+# Copias de seguridad — contienen datos del cliente
+copias_seguridad/
+
+# Servicio Windows compilado y logs
+daemon/
+
+# Carpeta de actualizaciones generada en tiempo de ejecución
+actualizaciones/
+
+# macOS
+.DS_Store
+
+# Claude Code
+.claude/
+.agents/
+skills-lock.json
+
+# Logs
+*.log
+npm-debug.log*
