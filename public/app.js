@@ -84,7 +84,7 @@ function triggerViewAnim(viewId) {
     if (title) { title.style.animation = 'none'; void title.offsetWidth; title.style.animation = ''; }
 }
 
-// ── Login Canvas — Rutas de envío premium ────────────────────
+// ── Login Canvas — Red logística animada ─────────────────────
 function initLoginCanvas() {
     const canvas  = document.getElementById('lx2-canvas');
     const overlay = document.getElementById('auth-overlay');
@@ -93,39 +93,75 @@ function initLoginCanvas() {
 
     const ctx = canvas.getContext('2d');
     let W, H, rafId = null, last = 0;
-    let grid = [];
-    let flows = [];
-    let nextFlow = 1800;
+    let nodes = [], edges = [], packets = [];
 
-    const GAP = 24, R0 = 1.0;
+    // Nodos distribuidos por todo el panel de marca (fx 0.05–0.95)
+    const ND = [
+        {fx:0.22,fy:0.28,r:5.2,hub:true },  // hub top-left
+        {fx:0.72,fy:0.50,r:5.5,hub:true },  // hub center-right
+        {fx:0.18,fy:0.76,r:4.8,hub:true },  // hub bottom-left
+        {fx:0.07,fy:0.11,r:2.5,hub:false},  // top-far-left
+        {fx:0.46,fy:0.13,r:2.8,hub:false},  // top-center
+        {fx:0.85,fy:0.17,r:2.4,hub:false},  // top-right
+        {fx:0.87,fy:0.40,r:2.6,hub:false},  // far-right
+        {fx:0.63,fy:0.72,r:2.3,hub:false},  // bottom-center-right
+        {fx:0.35,fy:0.88,r:2.0,hub:false},  // bottom-center
+        {fx:0.06,fy:0.54,r:2.4,hub:false},  // left-middle
+        {fx:0.14,fy:0.38,r:2.2,hub:false},  // upper-left
+        {fx:0.54,fy:0.35,r:2.0,hub:false},  // center
+        {fx:0.80,fy:0.84,r:1.8,hub:false},  // bottom-right
+        {fx:0.40,fy:0.60,r:2.5,hub:false},  // center-left
+    ];
 
-    function buildGrid() {
-        grid = [];
-        for (let x = GAP * 0.5; x < W + GAP; x += GAP)
-            for (let y = GAP * 0.5; y < H + GAP; y += GAP)
-                grid.push({ x, y });
+    // Conexiones entre nodos (índices)
+    const EC = [
+        [0,4],[0,3],[0,10],[0,9],[4,1],[4,5],[1,5],[1,11],
+        [1,13],[1,6],[13,7],[7,8],[8,2],[2,9],[9,10],
+        [3,10],[5,6],[6,12],[7,2],[11,6],[13,2],[11,1]
+    ];
+
+    const COLS = [[251,191,36],[167,139,250],[226,232,240]]; // ámbar, violeta, blanco
+
+    function buildScene() {
+        const BW = W * 0.63;
+        nodes = ND.map((d, i) => ({
+            x: d.fx * BW, y: d.fy * H, r: d.r, hub: d.hub,
+            phase: (i * 1.37) % 6.2832,
+            ps: 0.00085 + (i % 5) * 0.00018
+        }));
+        edges = EC.map(([a, b]) => {
+            const na = nodes[a], nb = nodes[b];
+            const dx = nb.x - na.x, dy = nb.y - na.y;
+            const k = ((a * 7 + b * 13) % 11 - 5) * 0.014;
+            return { a, b, cx: (na.x+nb.x)/2 + dy*k, cy: (na.y+nb.y)/2 - dx*k };
+        });
+        packets = [];
+        for (let i = 0; i < 8; i++) {
+            packets.push({
+                ei: (i * 3) % edges.length,
+                t: i / 8,
+                spd: 0.00018 + (i % 4) * 0.00007,
+                dir: i % 2 === 0 ? 1 : -1,
+                col: COLS[i % 3],
+                trail: []
+            });
+        }
+    }
+
+    function bez(e, t) {
+        const na = nodes[e.a], nb = nodes[e.b], mt = 1 - t;
+        return {
+            x: mt*mt*na.x + 2*mt*t*e.cx + t*t*nb.x,
+            y: mt*mt*na.y + 2*mt*t*e.cy + t*t*nb.y
+        };
     }
 
     function resize() {
         const dpr = window.devicePixelRatio || 1;
-        W = canvas.offsetWidth;
-        H = canvas.offsetHeight;
-        canvas.width  = W * dpr;
-        canvas.height = H * dpr;
+        W = canvas.offsetWidth; H = canvas.offsetHeight;
+        canvas.width = W*dpr; canvas.height = H*dpr;
         ctx.scale(dpr, dpr);
-        buildGrid();
-    }
-
-    // How much this flow "activates" a given dot (0..1)
-    function waveAlpha(d, f) {
-        const p = f.dir
-            ? (d.x / W + d.y / H) * 0.5
-            : ((W - d.x) / W + d.y / H) * 0.5;
-        const behind = f.t - p;
-        const trail  = 0.17;
-        if (behind < 0 || behind > trail) return 0;
-        const n = 1 - behind / trail;
-        return n * n * 0.94;
+        buildScene();
     }
 
     function frame(ts) {
@@ -134,68 +170,87 @@ function initLoginCanvas() {
         last = ts;
         ctx.clearRect(0, 0, W, H);
 
-        nextFlow -= dt;
-        if (nextFlow <= 0) {
-            flows.push({ t: -0.02, spd: 0.00020 + Math.random() * 0.00008, dir: Math.random() > 0.5 });
-            nextFlow = 2500 + Math.random() * 2000;
+        const BW = W * 0.63;
+
+        // Fondo oscuro con tonos morados profundos
+        const bg = ctx.createLinearGradient(0, 0, BW, H);
+        bg.addColorStop(0,   '#0c0521');
+        bg.addColorStop(0.4, '#100828');
+        bg.addColorStop(0.75,'#0a061e');
+        bg.addColorStop(1,   '#07041a');
+        ctx.fillStyle = bg; ctx.fillRect(0, 0, BW, H);
+
+        // Degradado de transición hacia el panel de formulario
+        const fe = ctx.createLinearGradient(BW - 80, 0, BW, 0);
+        fe.addColorStop(0, 'rgba(10,6,30,1)'); fe.addColorStop(1, 'rgba(10,6,30,0)');
+        ctx.fillStyle = fe; ctx.fillRect(BW - 80, 0, 80, H);
+
+        // Blobs de luz ambiental morados
+        const mn = Math.min(BW, H);
+        const b1x = BW*(0.60+Math.sin(ts*0.00014)*0.09), b1y = H*(0.30+Math.cos(ts*0.00011)*0.09);
+        const g1 = ctx.createRadialGradient(b1x,b1y,0,b1x,b1y,mn*0.50);
+        g1.addColorStop(0,'rgba(109,40,217,0.26)'); g1.addColorStop(1,'rgba(109,40,217,0)');
+        ctx.beginPath(); ctx.arc(b1x,b1y,mn*0.50,0,6.2832); ctx.fillStyle=g1; ctx.fill();
+
+        const b2x = BW*(0.18+Math.sin(ts*0.00010+1.8)*0.07), b2y = H*(0.72+Math.cos(ts*0.00008+0.9)*0.07);
+        const g2 = ctx.createRadialGradient(b2x,b2y,0,b2x,b2y,mn*0.38);
+        g2.addColorStop(0,'rgba(124,58,237,0.20)'); g2.addColorStop(1,'rgba(124,58,237,0)');
+        ctx.beginPath(); ctx.arc(b2x,b2y,mn*0.38,0,6.2832); ctx.fillStyle=g2; ctx.fill();
+
+        const b3x = BW*(0.82+Math.sin(ts*0.00008+2.5)*0.06), b3y = H*(0.16+Math.cos(ts*0.00009+1.2)*0.06);
+        const g3 = ctx.createRadialGradient(b3x,b3y,0,b3x,b3y,mn*0.30);
+        g3.addColorStop(0,'rgba(167,139,250,0.14)'); g3.addColorStop(1,'rgba(167,139,250,0)');
+        ctx.beginPath(); ctx.arc(b3x,b3y,mn*0.30,0,6.2832); ctx.fillStyle=g3; ctx.fill();
+
+        ctx.save();
+        ctx.beginPath(); ctx.rect(0, 0, BW+8, H); ctx.clip();
+
+        // Aristas (curvas bezier)
+        ctx.lineWidth = 0.8;
+        for (const e of edges) {
+            const na = nodes[e.a], nb = nodes[e.b];
+            ctx.beginPath(); ctx.moveTo(na.x, na.y);
+            ctx.quadraticCurveTo(e.cx, e.cy, nb.x, nb.y);
+            ctx.strokeStyle = 'rgba(124,58,237,0.20)'; ctx.stroke();
         }
-        flows = flows.filter(f => f.t < 1.20);
-        flows.forEach(f => { f.t += f.spd * dt; });
 
-        // Ambient glow blobs — siempre presentes, derivan lentamente
-        const mn = Math.min(W, H);
-        const b1x = W * (0.75 + Math.sin(ts * 0.00020) * 0.08);
-        const b1y = H * (0.25 + Math.cos(ts * 0.00016) * 0.07);
-        const g1 = ctx.createRadialGradient(b1x, b1y, 0, b1x, b1y, mn * 0.30);
-        g1.addColorStop(0, 'rgba(109,40,217,0.062)'); g1.addColorStop(1, 'rgba(109,40,217,0)');
-        ctx.beginPath(); ctx.arc(b1x, b1y, mn * 0.30, 0, 6.2832); ctx.fillStyle = g1; ctx.fill();
-        const b2x = W * (0.20 + Math.sin(ts * 0.00015 + 2.1) * 0.06);
-        const b2y = H * (0.76 + Math.cos(ts * 0.00012 + 1.3) * 0.06);
-        const g2 = ctx.createRadialGradient(b2x, b2y, 0, b2x, b2y, mn * 0.24);
-        g2.addColorStop(0, 'rgba(99,102,241,0.048)'); g2.addColorStop(1, 'rgba(99,102,241,0)');
-        ctx.beginPath(); ctx.arc(b2x, b2y, mn * 0.24, 0, 6.2832); ctx.fillStyle = g2; ctx.fill();
-
-        const n = grid.length;
-        const alpha = new Float32Array(n);
-        flows.forEach(f => {
-            for (let i = 0; i < n; i++) {
-                const a = waveAlpha(grid[i], f);
-                if (a > alpha[i]) alpha[i] = a;
-            }
-        });
-
-        // Grey base dots (batch)
-        ctx.fillStyle = 'rgba(148,163,184,0.22)';
-        ctx.beginPath();
-        for (let i = 0; i < n; i++) {
-            if (alpha[i] < 0.05) {
-                ctx.moveTo(grid[i].x + R0, grid[i].y);
-                ctx.arc(grid[i].x, grid[i].y, R0, 0, 6.2832);
-            }
-        }
-        ctx.fill();
-
-        // Purple wave dots — bucketed to reduce fillStyle changes
-        const BUCKETS = 8;
-        const buckets = Array.from({ length: BUCKETS }, () => []);
-        for (let i = 0; i < n; i++) {
-            if (alpha[i] >= 0.05) {
-                buckets[Math.min(BUCKETS - 1, Math.floor(alpha[i] * BUCKETS))].push(i);
-            }
-        }
-        for (let b = 0; b < BUCKETS; b++) {
-            if (!buckets[b].length) continue;
-            const a  = (b + 0.5) / BUCKETS;
-            const r  = R0 + a * 1.4;
-            const op = (0.14 + a * 0.54).toFixed(2);
-            ctx.fillStyle = `rgba(109,40,217,${op})`;
-            ctx.beginPath();
-            buckets[b].forEach(i => {
-                ctx.moveTo(grid[i].x + r, grid[i].y);
-                ctx.arc(grid[i].x, grid[i].y, r, 0, 6.2832);
+        // Paquetes en tránsito
+        for (const p of packets) {
+            p.t += p.spd * p.dir * dt;
+            if (p.t > 1) { p.t = 1; p.dir = -1; }
+            if (p.t < 0) { p.t = 0; p.dir =  1; }
+            const {x, y} = bez(edges[p.ei], p.t);
+            p.trail.push({x, y});
+            if (p.trail.length > 12) p.trail.shift();
+            const [r,g,b] = p.col;
+            p.trail.forEach((pt, i) => {
+                const a = (i/p.trail.length)*0.42;
+                ctx.beginPath(); ctx.arc(pt.x,pt.y,1.3,0,6.2832);
+                ctx.fillStyle=`rgba(${r},${g},${b},${a.toFixed(2)})`; ctx.fill();
             });
-            ctx.fill();
+            const grd = ctx.createRadialGradient(x,y,0,x,y,10);
+            grd.addColorStop(0,`rgba(${r},${g},${b},0.32)`); grd.addColorStop(1,`rgba(${r},${g},${b},0)`);
+            ctx.beginPath(); ctx.arc(x,y,10,0,6.2832); ctx.fillStyle=grd; ctx.fill();
+            ctx.beginPath(); ctx.arc(x,y,3,0,6.2832);
+            ctx.fillStyle=`rgba(${r},${g},${b},0.92)`; ctx.fill();
         }
+
+        // Nodos
+        for (const n of nodes) {
+            const pulse = Math.sin(ts*n.ps+n.phase);
+            const hR = n.r*(n.hub?20:13);
+            const halo = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,hR);
+            halo.addColorStop(0,`rgba(99,102,241,${n.hub?0.13:0.07})`); halo.addColorStop(1,'rgba(99,102,241,0)');
+            ctx.beginPath(); ctx.arc(n.x,n.y,hR,0,6.2832); ctx.fillStyle=halo; ctx.fill();
+            ctx.beginPath(); ctx.arc(n.x,n.y,n.r*(1.7+pulse*0.35),0,6.2832);
+            ctx.strokeStyle=`rgba(148,163,184,${(0.10+pulse*0.05).toFixed(2)})`; ctx.lineWidth=0.7; ctx.stroke();
+            const cg = ctx.createRadialGradient(n.x-n.r*0.3,n.y-n.r*0.3,0,n.x,n.y,n.r);
+            cg.addColorStop(0,n.hub?'rgba(255,255,255,0.97)':'rgba(226,232,240,0.88)');
+            cg.addColorStop(1,n.hub?'rgba(148,163,184,0.65)':'rgba(100,116,139,0.42)');
+            ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,6.2832); ctx.fillStyle=cg; ctx.fill();
+        }
+
+        ctx.restore();
     }
 
     const ro = new ResizeObserver(resize);
@@ -940,7 +995,13 @@ function verCliente(index) {
                 </td>
             </tr>
         `}).join('')
-        : '<tr><td colspan="4" class="px-6 py-8 text-center text-slate-400 dark:text-slate-500 italic">No hay facturas registradas.</td></tr>';
+        : `<tr><td colspan="4" class="px-6 py-12 text-center">
+            <div class="flex flex-col items-center gap-2.5">
+              <div class="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-300 dark:text-slate-600"><i class="fa-solid fa-file-invoice text-lg"></i></div>
+              <p class="text-sm font-semibold text-slate-400 dark:text-slate-500">No hay facturas registradas</p>
+              <p class="text-xs text-slate-300 dark:text-slate-600">Las facturas de este cliente aparecerán aquí</p>
+            </div>
+          </td></tr>`;
 
     navigate('ficha-cliente');
 }

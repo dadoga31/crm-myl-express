@@ -969,6 +969,26 @@ function saveShipment() {
 }
 
 // ── Detail ────────────────────────────────────────────────────────────────────
+
+// Pinta el timeline de estado (Pendiente→Recogido→En tránsito→Entregado)
+// y muestra/oculta el banner de incidencia según el estado actual.
+function renderShipmentTimeline(status) {
+  const order = ['Pendiente', 'Recogido', 'En tránsito', 'Entregado'];
+  const active = order.indexOf(status);
+  const isInc  = status === 'Incidencia';
+  document.querySelectorAll('#dt-timeline .dt-tl-step').forEach((el, i) => {
+    el.classList.remove('is-done', 'is-active', 'is-future');
+    if (isInc)             el.classList.add('is-future');
+    else if (i < active)   el.classList.add('is-done');
+    else if (i === active) el.classList.add('is-active');
+    else                   el.classList.add('is-future');
+  });
+  const tl = document.getElementById('dt-timeline');
+  if (tl) tl.style.opacity = isInc ? '.5' : '1';
+  const inc = document.getElementById('dt-incidencia');
+  if (inc) inc.style.display = isInc ? 'flex' : 'none';
+}
+
 function openDetail(id) {
   currentDetailId = id;
   const s  = shipments.find(x=>x.id===id);
@@ -1000,6 +1020,9 @@ function openDetail(id) {
 
   // Selector de estado
   document.getElementById('dt-status-select').value = s.status;
+
+  // Timeline de estado + banner de incidencia
+  renderShipmentTimeline(s.status);
 
   // Hero metrics
   const mWeight = document.getElementById('dt-m-weight');
@@ -1067,6 +1090,7 @@ function updateStatusFromDetail() {
     badgeEl.style.cssText = `display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:11px;font-weight:700;font-family:var(--mono);background:${st.bg};color:${st.color};border:1px solid ${st.border}`;
     badgeEl.innerHTML = `<span style="width:6px;height:6px;border-radius:50%;background:${st.dot};flex-shrink:0"></span>${status}`;
   }
+  renderShipmentTimeline(status);
   renderShipTable();
   guardarDatos();
 }
@@ -2264,6 +2288,16 @@ function togglePalletFields() {
   }
 }
 
+// Pinta el timeline de almacenaje: Recibido → En almacén → Retirado
+function renderPalletTimeline(status) {
+  const isRetired = status === 'retirado';
+  const states = isRetired ? ['is-done', 'is-done', 'is-active'] : ['is-done', 'is-active', 'is-future'];
+  document.querySelectorAll('#plt-timeline .dt-tl-step').forEach((el, i) => {
+    el.classList.remove('is-done', 'is-active', 'is-future');
+    el.classList.add(states[i]);
+  });
+}
+
 function openPalletDetail(id) {
   currentPalletDetailId = id;
   const p = pallets.find(x=>x.id===id);
@@ -2276,7 +2310,10 @@ function openPalletDetail(id) {
   badge.style.background = p.status==='almacenado' ? 'rgba(56,189,248,.15)' : 'rgba(148,163,184,.15)';
   badge.style.color = p.status==='almacenado' ? '#0284c7' : '#64748b';
   
-  document.getElementById('plt-dt-loc-text').textContent = `${p.zone} - ${p.row} - ${p.pos}`;
+  document.getElementById('plt-loc-zone').textContent = p.zone || '—';
+  document.getElementById('plt-loc-row').textContent  = p.row  || '—';
+  document.getElementById('plt-loc-pos').textContent  = p.pos  || '—';
+  renderPalletTimeline(p.status);
   
   const d1 = parseDateES(p.entry);
   const d2 = p.exit ? parseDateES(p.exit) : new Date();
@@ -2286,7 +2323,7 @@ function openPalletDetail(id) {
   
   const cost = diffDays * (p.rate || 1.50);
   document.getElementById('plt-dt-cost').textContent = cost.toFixed(2) + ' €';
-  document.getElementById('plt-dt-rate').textContent = (p.rate || 1.50).toFixed(2) + ' € / día / bulto';
+  document.getElementById('plt-dt-rate').textContent = (p.rate || 1.50).toFixed(2) + ' €';
   
   // Formateador de fecha legible
   const fmtEntrada = (str) => {
@@ -2297,20 +2334,22 @@ function openPalletDetail(id) {
            (str.includes('T') ? ' · ' + d.toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' }) : '');
   };
   const partnerLabel = p.partner_id ? (partners.find(c=>c.id===p.partner_id)?.company_name || '—') : '—';
-  const B = 'font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:5px';
-  const V = 'font-size:14px;font-weight:600;color:var(--text)';
-  const cell = (label, value, extra='') => `<div style="padding:14px 20px${extra}"><div style="${B}">${label}</div><div style="${V}">${value}</div></div>`;
-  const bl = ';border-left:1px solid rgba(0,0,0,.05)';
-  const bb = ';border-bottom:1px solid rgba(0,0,0,.05)';
+  const B = 'font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:5px';
+  const V = 'font-size:14px;font-weight:700;color:var(--text);line-height:1.3;word-break:break-word';
+  const tile = (label, value) => `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:13px 16px"><div style="${B}">${label}</div><div style="${V}">${value}</div></div>`;
 
   document.getElementById('plt-dt-grid').innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr">
-      ${cell('Cliente',          cl ? cl.name : 'Desconocido', bb)}
-      ${cell('Colaboradora',     partnerLabel,                  bb + bl)}
-      ${cell('Contenido',        p.contents || '—',             bb)}
-      ${cell('Cantidad',         `${p.qty||1} bulto${(p.qty||1)>1?'s':''}`, bb + bl)}
-      ${cell('Fecha de entrada', fmtEntrada(p.entry))}
-      ${p.exit ? cell('Fecha de salida', fmtEntrada(p.exit), bl) : `<div style="padding:14px 20px${bl}"></div>`}
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:13px">
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.9px">Datos del registro</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      ${tile('Cliente',          cl ? cl.name : 'Desconocido')}
+      ${tile('Colaboradora',     partnerLabel)}
+      ${tile('Contenido',        p.contents || '—')}
+      ${tile('Cantidad',         `${p.qty||1} bulto${(p.qty||1)>1?'s':''}`)}
+      ${tile('Fecha de entrada', fmtEntrada(p.entry))}
+      ${p.exit ? tile('Fecha de salida', fmtEntrada(p.exit)) : ''}
     </div>
   `;
   

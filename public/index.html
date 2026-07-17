@@ -34,62 +34,125 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-['Inter'] h-screen flex overflow-hidden">
 
-    <!-- LOGIN -->
-    <!-- ═══ LOGIN v6 — Dark Tech · Canvas Network ═══ -->
-    <div id="auth-overlay" class="fixed inset-0 z-[100] lx2-root transition-opacity duration-500">
+    <!-- LOGIN v7 — Split Screen Network -->
+    <div id="auth-overlay" class="fixed inset-0 z-[100] lx3-root">
         <canvas id="lx2-canvas"></canvas>
-        <div class="lx2-bg-vignette"></div>
-        <div class="lx2-center">
-            <div class="lx2-card">
-                <!-- Banda de marca oscura -->
-                <div class="lx2-card-hdr">
-                    <div class="lx2-hdr-glow"></div>
-                    <div class="lx2-hdr-grid"></div>
-                    <img src="logo-myl.png" alt="MYL Express" class="lx2-hdr-img">
-                    <div class="lx2-hdr-tagline">Sistema de Gestión Logística</div>
-                </div>
-                <!-- Cuerpo del formulario -->
-                <div class="lx2-card-body">
-                    <div class="lx2-head">
-                        <h1 class="lx2-title">Acceso al sistema</h1>
-                        <p class="lx2-sub">Introduce tus credenciales para continuar</p>
+        <div class="lx3-shell">
+
+            <!-- ── Panel de marca (izquierda) ── -->
+            <div class="lx3-brand">
+                <div class="lx3-brand-inner">
+                    <div class="lx3-badge">
+                        <span class="lx3-badge-dot"></span>
+                        <span>Sistema activo · v2.0</span>
                     </div>
-                    <div class="lx2-fields">
-                        <div class="lx2-fw">
-                            <label class="lx2-label" for="login-username">Usuario</label>
-                            <div class="lx2-input-wrap">
-                                <i class="fa-solid fa-user lx2-ico"></i>
-                                <input type="text" id="login-username" class="lx2-input" placeholder="Nombre de usuario"
+                    <div class="lx3-headline">
+                        <span class="lx3-hl-1">Logística</span>
+                        <span class="lx3-hl-2">Inteligente</span>
+                    </div>
+                    <p class="lx3-desc">Sistema integrado de gestión de envíos,<br>almacén y facturación en tiempo real.</p>
+                    <div class="lx3-feats">
+                        <div class="lx3-feat">
+                            <span class="lx3-feat-ico"><i class="fa-solid fa-route"></i></span>
+                            <div class="lx3-feat-txt">
+                                <span class="lx3-feat-t">Rutas optimizadas en tiempo real</span>
+                                <span class="lx3-feat-d">Planificación inteligente y seguimiento de cada entrega</span>
+                            </div>
+                        </div>
+                        <div class="lx3-feat">
+                            <span class="lx3-feat-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span>
+                            <div class="lx3-feat-txt">
+                                <span class="lx3-feat-t">Facturación automática integrada</span>
+                                <span class="lx3-feat-d">Genera y envía facturas en segundos, sin errores manuales</span>
+                            </div>
+                        </div>
+                        <div class="lx3-feat">
+                            <span class="lx3-feat-ico"><i class="fa-solid fa-warehouse"></i></span>
+                            <div class="lx3-feat-txt">
+                                <span class="lx3-feat-t">Control total de almacén</span>
+                                <span class="lx3-feat-d">Stock en tiempo real con alertas y analítica avanzada</span>
+                            </div>
+                        </div>
+                        <div class="lx3-feat">
+                            <span class="lx3-feat-ico"><i class="fa-solid fa-chart-line"></i></span>
+                            <div class="lx3-feat-txt">
+                                <span class="lx3-feat-t">Panel de control unificado</span>
+                                <span class="lx3-feat-d">Toda la operación de tu empresa en una sola pantalla</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lx3-divider"></div>
+                    <div class="lx3-stats-row">
+                        <div class="lx3-stat">
+                            <span class="lx3-stat-n">24/7</span>
+                            <span class="lx3-stat-l">Monitorización</span>
+                        </div>
+                        <div class="lx3-stat-sep"></div>
+                        <div class="lx3-stat">
+                            <span class="lx3-stat-n">99.9%</span>
+                            <span class="lx3-stat-l">Disponibilidad</span>
+                        </div>
+                        <div class="lx3-stat-sep"></div>
+                        <div class="lx3-stat">
+                            <span class="lx3-stat-n">SSL</span>
+                            <span class="lx3-stat-l">Cifrado seguro</span>
+                        </div>
+                        <div class="lx3-stat-sep"></div>
+                        <div class="lx3-stat">
+                            <span class="lx3-stat-n">v2.0</span>
+                            <span class="lx3-stat-l">Última versión</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Panel de formulario (derecha) ── -->
+            <div class="lx3-form">
+                <div class="lx3-form-inner">
+                    <img src="logo-myl.png" alt="MYL Express" class="lx3-card-logo">
+                    <div class="lx3-card-sep"></div>
+                    <div class="lx3-fhd">
+                        <h1 class="lx3-title">Bienvenido <span class="lx3-title-grad">de nuevo</span></h1>
+                        <p class="lx3-sub"><i class="fa-solid fa-shield-halved lx3-sub-ico"></i> Accede a tu panel de gestión logística</p>
+                    </div>
+                    <div class="lx3-fields">
+                        <div class="lx3-fw">
+                            <label class="lx3-lbl" for="login-username">Usuario</label>
+                            <div class="lx3-iw">
+                                <i class="fa-solid fa-user lx3-ico"></i>
+                                <input type="text" id="login-username" class="lx3-inp" placeholder="Nombre de usuario"
                                     autocomplete="username"
                                     onkeypress="if(event.key==='Enter') document.getElementById('login-pass').focus()">
                             </div>
                         </div>
-                        <div class="lx2-fw">
-                            <label class="lx2-label" for="login-pass">Contraseña</label>
-                            <div class="lx2-input-wrap">
-                                <i class="fa-solid fa-lock lx2-ico"></i>
-                                <input type="password" id="login-pass" class="lx2-input" placeholder="••••••••"
+                        <div class="lx3-fw">
+                            <label class="lx3-lbl" for="login-pass">Contraseña</label>
+                            <div class="lx3-iw">
+                                <i class="fa-solid fa-lock lx3-ico"></i>
+                                <input type="password" id="login-pass" class="lx3-inp" placeholder="••••••••"
                                     autocomplete="current-password"
                                     onkeypress="if(event.key==='Enter') procesarLogin()">
-                                <button type="button" class="lx2-eye" tabindex="-1"
+                                <button type="button" class="lx3-eye" tabindex="-1"
                                     onclick="const p=document.getElementById('login-pass');const i=this.querySelector('i');p.type=p.type==='password'?'text':'password';i.className=p.type==='password'?'fa-solid fa-eye':'fa-solid fa-eye-slash';">
                                     <i class="fa-solid fa-eye"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <p id="login-error" class="lx2-error hidden"></p>
-                    <button onclick="procesarLogin()" class="lx2-btn">
-                        <span>Acceder</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                        <span class="lx2-btn-shine"></span>
+                    <p id="login-error" class="lx3-err hidden"></p>
+                    <button onclick="procesarLogin()" class="lx3-btn">
+                        <i class="fa-solid fa-lock lx3-btn-ico-l"></i>
+                        <span>Iniciar sesión</span>
+                        <i class="fa-solid fa-arrow-right lx3-btn-arr"></i>
+                        <span class="lx3-shine"></span>
                     </button>
-                    <div class="lx2-foot">
-                        <span class="lx2-pulse-dot"></span>
-                        <span>Sistema operativo · Conexión segura</span>
+                    <div class="lx3-ffoot">
+                        <span class="lx3-dot"></span>
+                        <span>Cifrado SSL · Acceso protegido · MYL v2.0</span>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -408,24 +471,34 @@
                                 <!-- Bloque 1: Empresa / Identificación -->
                                 <div class="grid grid-cols-12 gap-4 mb-4">
                                     <div class="col-span-12">
-                                        <p class="text-[10px] font-black uppercase tracking-[0.1em] text-slate-400 dark:text-slate-600 mb-3 flex items-center gap-2">
-                                            <i class="fa-solid fa-building text-purple-400"></i> Identificación
-                                        </p>
+                                        <div class="flex items-center gap-2.5 mb-3">
+                                            <span class="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-500 dark:text-purple-400 text-xs shrink-0"><i class="fa-solid fa-building"></i></span>
+                                            <span class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">Identificación</span>
+                                        </div>
                                     </div>
                                     <div class="col-span-3">
                                         <label class="modal-label">Tipo</label>
-                                        <select id="cli-tipo" required class="modal-input">
-                                            <option value="Empresa">Empresa</option>
-                                            <option value="Particular">Particular</option>
-                                        </select>
+                                        <div class="input-ico">
+                                            <i class="fa-solid fa-layer-group ico-l"></i>
+                                            <select id="cli-tipo" required class="modal-input">
+                                                <option value="Empresa">Empresa</option>
+                                                <option value="Particular">Particular</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="col-span-6">
                                         <label id="label-nombre" class="modal-label">Nombre / Razón Social</label>
-                                        <input type="text" id="cli-nombre" required class="modal-input" placeholder="Nombre completo o razón social">
+                                        <div class="input-ico">
+                                            <i class="fa-solid fa-signature ico-l"></i>
+                                            <input type="text" id="cli-nombre" required class="modal-input" placeholder="Nombre completo o razón social">
+                                        </div>
                                     </div>
                                     <div class="col-span-3">
                                         <label id="label-nif" class="modal-label">CIF / NIF</label>
-                                        <input type="text" id="cli-nif" required class="modal-input" placeholder="B12345678">
+                                        <div class="input-ico">
+                                            <i class="fa-solid fa-id-card ico-l"></i>
+                                            <input type="text" id="cli-nif" required class="modal-input" placeholder="B12345678">
+                                        </div>
                                     </div>
                                 </div>
 
@@ -434,25 +507,35 @@
                                 <!-- Bloque 2: Contacto -->
                                 <div class="grid grid-cols-12 gap-4 mb-4">
                                     <div class="col-span-12">
-                                        <p class="text-[10px] font-black uppercase tracking-[0.1em] text-slate-400 dark:text-slate-600 mb-3 flex items-center gap-2">
-                                            <i class="fa-solid fa-address-card text-purple-400"></i> Contacto y Pago
-                                        </p>
+                                        <div class="flex items-center gap-2.5 mb-3">
+                                            <span class="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-500 dark:text-purple-400 text-xs shrink-0"><i class="fa-solid fa-address-card"></i></span>
+                                            <span class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">Contacto y Pago</span>
+                                        </div>
                                     </div>
                                     <div class="col-span-3">
                                         <label class="modal-label">Teléfono</label>
-                                        <input type="tel" id="cli-tlf" required class="modal-input" placeholder="600 000 000">
+                                        <div class="input-ico">
+                                            <i class="fa-solid fa-phone ico-l"></i>
+                                            <input type="tel" id="cli-tlf" required class="modal-input" placeholder="600 000 000">
+                                        </div>
                                     </div>
                                     <div class="col-span-5">
                                         <label class="modal-label">Email</label>
-                                        <input type="email" id="cli-email" required class="modal-input" placeholder="empresa@correo.com">
+                                        <div class="input-ico">
+                                            <i class="fa-solid fa-envelope ico-l"></i>
+                                            <input type="email" id="cli-email" required class="modal-input" placeholder="empresa@correo.com">
+                                        </div>
                                     </div>
                                     <div class="col-span-4">
                                         <label class="modal-label">Forma de pago</label>
-                                        <select id="cli-pago" required class="modal-input">
-                                            <option value="Transferencia">Transferencia Bancaria</option>
-                                            <option value="Efectivo">Efectivo</option>
-                                            <option value="Tarjeta">Tarjeta de Crédito</option>
-                                        </select>
+                                        <div class="input-ico">
+                                            <i class="fa-solid fa-credit-card ico-l"></i>
+                                            <select id="cli-pago" required class="modal-input">
+                                                <option value="Transferencia">Transferencia Bancaria</option>
+                                                <option value="Efectivo">Efectivo</option>
+                                                <option value="Tarjeta">Tarjeta de Crédito</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -461,13 +544,17 @@
                                 <!-- Bloque 3: Dirección -->
                                 <div class="grid grid-cols-12 gap-4 mb-5">
                                     <div class="col-span-12">
-                                        <p class="text-[10px] font-black uppercase tracking-[0.1em] text-slate-400 dark:text-slate-600 mb-3 flex items-center gap-2">
-                                            <i class="fa-solid fa-location-dot text-purple-400"></i> Dirección Fiscal
-                                        </p>
+                                        <div class="flex items-center gap-2.5 mb-3">
+                                            <span class="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-500 dark:text-purple-400 text-xs shrink-0"><i class="fa-solid fa-location-dot"></i></span>
+                                            <span class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">Dirección Fiscal</span>
+                                        </div>
                                     </div>
                                     <div class="col-span-6">
                                         <label class="modal-label">Dirección</label>
-                                        <input type="text" id="cli-dir" required class="modal-input" placeholder="Calle, número, piso…">
+                                        <div class="input-ico">
+                                            <i class="fa-solid fa-road ico-l"></i>
+                                            <input type="text" id="cli-dir" required class="modal-input" placeholder="Calle, número, piso…">
+                                        </div>
                                     </div>
                                     <div class="col-span-2">
                                         <label class="modal-label">C.P.</label>
@@ -2504,70 +2591,101 @@
       </div>
     </div>
 
-    <!-- Hero strip: métricas rápidas -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);background:var(--bg3);border-bottom:1px solid var(--border)">
-      <div style="padding:16px 20px;display:flex;align-items:center;gap:12px;border-right:1px solid var(--border)">
-        <div style="width:36px;height:36px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:1.8"><path d="M6 7h12l1 14H5L6 7z"/><path d="M9 7V5a3 3 0 016 0v2"/></svg>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px">Peso</div>
-          <div style="font-size:18px;font-weight:800;color:var(--text);font-family:var(--mono);letter-spacing:-0.5px" id="dt-m-weight">—</div>
-        </div>
+    <!-- Timeline de estado del envío -->
+    <div id="dt-timeline" class="dt-timeline">
+      <div class="dt-tl-step">
+        <div class="dt-tl-node"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div class="dt-tl-label">Pendiente</div>
+        <div class="dt-tl-sub">Registrado</div>
       </div>
-      <div style="padding:16px 20px;display:flex;align-items:center;gap:12px;border-right:1px solid var(--border)">
-        <div style="width:36px;height:36px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px">Bultos</div>
-          <div style="font-size:18px;font-weight:800;color:var(--text);font-family:var(--mono);letter-spacing:-0.5px" id="dt-m-units">—</div>
-        </div>
+      <div class="dt-tl-step">
+        <div class="dt-tl-node"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+        <div class="dt-tl-label">Recogido</div>
+        <div class="dt-tl-sub">En origen</div>
       </div>
-      <div style="padding:16px 20px;display:flex;align-items:center;gap:12px">
-        <div style="width:36px;height:36px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px">Tipo de envío</div>
-          <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.3px" id="dt-m-type">—</div>
-        </div>
+      <div class="dt-tl-step">
+        <div class="dt-tl-node"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div class="dt-tl-label">En tránsito</div>
+        <div class="dt-tl-sub">En ruta</div>
       </div>
+      <div class="dt-tl-step">
+        <div class="dt-tl-node"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div class="dt-tl-label">Entregado</div>
+        <div class="dt-tl-sub">Destino</div>
+      </div>
+    </div>
+
+    <!-- Banner de incidencia (visible solo en estado Incidencia) -->
+    <div id="dt-incidencia" class="dt-incidencia" style="display:none">
+      <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span class="dt-incidencia-txt">Incidencia registrada — este envío requiere atención.</span>
     </div>
 
     <!-- Body sections -->
     <div style="padding:16px 24px;display:flex;flex-direction:column;gap:12px">
 
-      <!-- Sección 1: Origen & Destino -->
+      <!-- Sección 1: Ruta del envío -->
       <div>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          <span style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.9px">Origen &amp; Destino</span>
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 000-7h-11a3.5 3.5 0 010-7H15"/><circle cx="18" cy="5" r="3"/></svg>
+          <span style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.9px">Ruta del envío</span>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 18px">
-            <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px">Origen</div>
-            <div style="display:flex;align-items:flex-start;gap:8px">
-              <div style="width:28px;height:28px;background:var(--accent-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
-                <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--accent);fill:none;stroke-width:2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-              </div>
-              <div style="font-size:14px;font-weight:700;color:var(--text)" id="dt-origin">—</div>
+        <div class="dt-route">
+          <div class="dt-route-end from">
+            <div class="dt-route-pin from"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18"/><path d="M9 21v-6h6v6"/></svg></div>
+            <div style="min-width:0">
+              <div class="dt-route-kicker">Origen</div>
+              <div class="dt-route-name" id="dt-origin">—</div>
             </div>
           </div>
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 18px">
-            <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px">Destino</div>
-            <div style="display:flex;align-items:flex-start;gap:8px">
-              <div style="width:28px;height:28px;background:rgba(22,163,74,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
-                <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--green);fill:none;stroke-width:2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-              </div>
-              <div style="min-width:0">
-                <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px" id="dt-dest">—</div>
-                <div style="font-size:12px;color:var(--text3);line-height:1.4;margin-bottom:5px" id="dt-dest-addr"></div>
-                <div style="display:flex;align-items:center;gap:5px">
-                  <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--text3);fill:none;stroke-width:2;flex-shrink:0"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.77 19.79 19.79 0 01.07 1.18 2 2 0 012.03 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
-                  <span style="font-size:11px;color:var(--text3);font-family:var(--mono)" id="dt-dest-phone"></span>
-                </div>
-              </div>
+          <div class="dt-route-mid">
+            <div class="dt-route-track"></div>
+            <div class="dt-route-truck"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          </div>
+          <div class="dt-route-end to">
+            <div class="dt-route-pin to"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+            <div style="min-width:0">
+              <div class="dt-route-kicker">Destino</div>
+              <div class="dt-route-name" id="dt-dest">—</div>
+              <div class="dt-route-meta" id="dt-dest-addr"></div>
+              <div class="dt-route-meta" id="dt-dest-phone" style="font-family:var(--mono)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección: Paquete (métricas rápidas) -->
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          <span style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.9px">Paquete</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8"><path d="M6 7h12l1 14H5L6 7z"/><path d="M9 7V5a3 3 0 016 0v2"/></svg>
+            </div>
+            <div style="min-width:0">
+              <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px">Peso</div>
+              <div style="font-size:18px;font-weight:800;color:var(--text);font-family:var(--mono);letter-spacing:-0.5px" id="dt-m-weight">—</div>
+            </div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <div style="min-width:0">
+              <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px">Bultos</div>
+              <div style="font-size:18px;font-weight:800;color:var(--text);font-family:var(--mono);letter-spacing:-0.5px" id="dt-m-units">—</div>
+            </div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div style="min-width:0">
+              <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px">Tipo de envío</div>
+              <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.3px" id="dt-m-type">—</div>
             </div>
           </div>
         </div>
@@ -2689,28 +2807,92 @@
         </button>
       </div>
 
-      <!-- Título + badge -->
-      <div style="padding:14px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)">
-        <div>
-          <div style="font-family:var(--mono);font-size:15px;font-weight:700;color:var(--accent)" id="plt-dt-title">—</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:2px" id="plt-dt-loc-text">—</div>
+      <!-- Código + estado + timeline de almacenaje -->
+      <div style="padding:18px 22px 20px;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px">
+          <div style="min-width:0">
+            <div style="font-family:var(--mono);font-size:18px;font-weight:800;color:var(--accent);letter-spacing:-0.3px;word-break:break-all" id="plt-dt-title">—</div>
+            <div style="font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;font-weight:600;margin-top:3px">Código de almacenaje</div>
+          </div>
+          <span id="plt-dt-badge" style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;font-family:var(--mono);white-space:nowrap;flex-shrink:0">—</span>
         </div>
-        <span id="plt-dt-badge" style="padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;font-family:var(--mono)">—</span>
+        <!-- Timeline de ciclo de almacenaje -->
+        <div id="plt-timeline" class="dt-timeline" style="padding:0;background:transparent;border:none">
+          <div class="dt-tl-step">
+            <div class="dt-tl-node"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 21h16"/></svg></div>
+            <div class="dt-tl-label">Recibido</div>
+            <div class="dt-tl-sub">Entrada</div>
+          </div>
+          <div class="dt-tl-step">
+            <div class="dt-tl-node"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18"/><path d="M9 21v-6h6v6"/></svg></div>
+            <div class="dt-tl-label">En almacén</div>
+            <div class="dt-tl-sub">Almacenado</div>
+          </div>
+          <div class="dt-tl-step">
+            <div class="dt-tl-node"><svg viewBox="0 0 24 24"><path d="M14 3h7v7"/><path d="M21 3l-9 9"/><path d="M9 5H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg></div>
+            <div class="dt-tl-label">Retirado</div>
+            <div class="dt-tl-sub">Salida</div>
+          </div>
+        </div>
       </div>
 
-      <!-- Métricas rápidas -->
-      <div style="padding:14px 22px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-bottom:1px solid var(--border);background:var(--bg3)">
-        <div style="text-align:center">
-          <div style="font-size:22px;font-weight:900;color:var(--accent);font-family:var(--mono)" id="plt-dt-days">—</div>
-          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-top:2px">Días almacenado</div>
+      <!-- Ubicación física en almacén -->
+      <div style="padding:16px 22px 6px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:13px">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <span style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.9px">Ubicación en almacén</span>
         </div>
-        <div style="text-align:center;border-left:1px solid var(--border);border-right:1px solid var(--border)">
-          <div style="font-size:22px;font-weight:900;color:var(--text);font-family:var(--mono)" id="plt-dt-cost">—</div>
-          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-top:2px">Coste acumulado</div>
+        <div class="plt-loc">
+          <div class="plt-loc-seg">
+            <div class="plt-loc-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+            <div class="plt-loc-lbl">Zona</div>
+            <div class="plt-loc-val" id="plt-loc-zone">—</div>
+          </div>
+          <svg class="plt-loc-arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+          <div class="plt-loc-seg">
+            <div class="plt-loc-ico"><svg viewBox="0 0 24 24"><path d="M4 3v18"/><path d="M20 3v18"/><path d="M9 7h6"/><path d="M9 12h6"/><path d="M9 17h6"/></svg></div>
+            <div class="plt-loc-lbl">Pasillo</div>
+            <div class="plt-loc-val" id="plt-loc-row">—</div>
+          </div>
+          <svg class="plt-loc-arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+          <div class="plt-loc-seg">
+            <div class="plt-loc-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+            <div class="plt-loc-lbl">Hueco</div>
+            <div class="plt-loc-val" id="plt-loc-pos">—</div>
+          </div>
         </div>
-        <div style="text-align:center">
-          <div style="font-size:14px;font-weight:700;color:var(--text2);font-family:var(--mono)" id="plt-dt-rate">—</div>
-          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-top:2px">Tarifa</div>
+      </div>
+
+      <!-- Métricas: días / coste / tarifa -->
+      <div style="padding:14px 22px 16px">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:11px">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </div>
+            <div style="min-width:0">
+              <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px">Días</div>
+              <div style="font-size:19px;font-weight:800;color:var(--accent);font-family:var(--mono);letter-spacing:-0.5px" id="plt-dt-days">—</div>
+            </div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:11px">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8"><circle cx="12" cy="12" r="9"/><path d="M14.5 9a2.5 2 0 00-2.5-1.5c-1.5 0-2.5.8-2.5 2s1 1.7 2.5 2 2.5.9 2.5 2-1 2-2.5 2A2.5 2 0 019 16M12 6v1.5M12 16.5V18"/></svg>
+            </div>
+            <div style="min-width:0">
+              <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px">Coste acumulado</div>
+              <div style="font-size:19px;font-weight:800;color:var(--text);font-family:var(--mono);letter-spacing:-0.5px" id="plt-dt-cost">—</div>
+            </div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:11px">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1.2"/></svg>
+            </div>
+            <div style="min-width:0">
+              <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px">Tarifa · día</div>
+              <div style="font-size:16px;font-weight:800;color:var(--text2);font-family:var(--mono);letter-spacing:-0.3px" id="plt-dt-rate">—</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -3043,7 +3225,7 @@
     <div id="modal-preview-factura" class="fixed inset-0 bg-slate-50 dark:bg-slate-950/95 backdrop-blur-md z-50 flex-col items-center justify-center p-4 hidden animate-in fade-in duration-200">
         <div class="w-full max-w-4xl flex justify-between items-center mb-4 no-print flex-shrink-0 mt-8">
             <h3 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
-                <i class="fa-solid fa-file-invoice text-purple-500"></i> Vista Previa
+                <span class="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-300 shrink-0"><i class="fa-solid fa-file-invoice text-base"></i></span> Vista Previa
             </h3>
             <div class="flex items-center gap-4">
                 <button onclick="imprimirVistaPrevia()" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all">
@@ -3052,7 +3234,7 @@
                 <button onclick="descargarDesdePrevia()" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-lg shadow-purple-900/20">
                     <i class="fa-solid fa-download mr-2"></i> PDF
                 </button>
-                <button onclick="cerrarPreviaFactura()" class="text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:text-white transition-all text-2xl ml-4"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="cerrarPreviaFactura()" title="Cerrar" class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 shadow-sm transition-all ml-1"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
         </div>
         <div class="flex-grow w-full max-w-4xl overflow-y-auto pb-8 scrollbar-hide no-print flex justify-center items-start">
@@ -3066,7 +3248,7 @@
     <div id="modal-preview-presupuesto" class="fixed inset-0 bg-slate-50 dark:bg-slate-950/95 backdrop-blur-md z-50 flex-col items-center justify-center p-4 hidden animate-in fade-in duration-200">
         <div class="w-full max-w-4xl flex justify-between items-center mb-4 no-print flex-shrink-0 mt-8">
             <h3 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
-                <i class="fa-solid fa-file-lines text-purple-500"></i> Vista Previa — Presupuesto
+                <span class="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-300 shrink-0"><i class="fa-solid fa-file-lines text-base"></i></span> Vista Previa — Presupuesto
             </h3>
             <div class="flex items-center gap-4">
                 <button onclick="imprimirVistaPreviaPresupuesto()" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-900 dark:text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all">
@@ -3075,7 +3257,7 @@
                 <button onclick="descargarDesdeVistaPreviaPresupuesto()" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-lg shadow-purple-900/20">
                     <i class="fa-solid fa-download mr-2"></i> PDF
                 </button>
-                <button onclick="cerrarPreviaPresupuesto()" class="text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:text-white transition-all text-2xl ml-4"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="cerrarPreviaPresupuesto()" title="Cerrar" class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 shadow-sm transition-all ml-1"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
         </div>
         <div class="flex-grow w-full max-w-4xl overflow-y-auto pb-8 scrollbar-hide no-print flex justify-center items-start">
