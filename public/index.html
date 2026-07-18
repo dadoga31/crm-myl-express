@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MYL Express | Gestión de Facturación Logística</title>
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Frameworks -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts & Icons (locales — sin dependencia de internet) -->
+    <link rel="stylesheet" href="vendor/fonts/plus-jakarta-sans.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <!-- Frameworks (locales) -->
+    <script src="vendor/tailwind.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="vendor/sweetalert2.js"></script>
+    <script src="vendor/html2pdf.bundle.min.js"></script>
+    <script src="vendor/jszip.min.js"></script>
+    <script src="vendor/chart.js"></script>
+    <script src="vendor/qrcode.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="index.css">
     <!-- Módulo Logística -->
     <link rel="stylesheet" href="logistica.css">
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+    <script src="vendor/jsbarcode.all.min.js"></script>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-['Inter'] h-screen flex overflow-hidden">
 
