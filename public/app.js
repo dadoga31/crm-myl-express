@@ -1038,11 +1038,11 @@ function agregarLinea() {
     tr.className = "group animate-in fade-in";
     tr.innerHTML = `
         <td class="py-4">
-            <input type="text" class="desc-linea w-full bg-transparent border-none focus:ring-0 text-slate-800 dark:text-slate-200 placeholder-slate-600 font-medium" placeholder="Descripción del servicio..." required>
+            <input type="text" class="desc-linea w-full bg-transparent border-none focus:ring-0 text-slate-800 dark:text-slate-200 placeholder-slate-600 font-medium" placeholder="Descripción del servicio..." onkeydown="lineaEnter(event)" required>
         </td>
         <td class="py-4 text-right">
             <div class="flex items-center justify-end gap-1">
-                <input type="number" step="0.01" class="imp-linea w-24 bg-transparent border-none text-right focus:ring-0 text-slate-900 dark:text-white font-bold" placeholder="0.00" oninput="calcularTotales()" required>
+                <input type="number" step="0.01" class="imp-linea w-24 bg-transparent border-none text-right focus:ring-0 text-slate-900 dark:text-white font-bold" placeholder="0.00" oninput="calcularTotales()" onkeydown="lineaEnter(event)" required>
                 <span class="text-slate-400 dark:text-slate-500 font-bold">€</span>
             </div>
         </td>
@@ -1053,6 +1053,16 @@ function agregarLinea() {
         </td>
     `;
     tbody.appendChild(tr);
+}
+
+// Enter en una línea → añade otra línea y enfoca su descripción (NO emite la factura)
+function lineaEnter(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        agregarLinea();
+        const filas = document.querySelectorAll('#lineas-factura .desc-linea');
+        if (filas.length) filas[filas.length - 1].focus();
+    }
 }
 
 function eliminarLinea(id) {
@@ -1085,64 +1095,80 @@ function renderSelectClientes() {
 
 document.getElementById('form-factura').addEventListener('submit', function(e) {
     e.preventDefault();
+    const form = this;
     const indexCli = document.getElementById('fac-cliente').value;
     if (!indexCli) return Swal.fire('Error', 'Debes seleccionar un cliente.', 'warning');
-    
-    const concepts = [];
+
     const descs = document.querySelectorAll('.desc-linea');
     const imps = document.querySelectorAll('.imp-linea');
-    
+
     if (descs.length === 0) return Swal.fire('Sin líneas', 'Añade al menos un concepto a la factura.', 'info');
-    
+
+    const concepts = [];
     for (let i = 0; i < descs.length; i++) {
         concepts.push({ descripcion: descs[i].value, importe: parseFloat(imps[i].value) || 0 });
     }
 
     const { subtotal, iva, total } = calcularTotales();
     const ivaPorcentaje = parseFloat(document.getElementById('fac-iva-porcentaje').value) || 0;
-    
-    let mensajeExito = '';
+    const esEdicion = facturaEnEdicionIndex !== null;
 
-    if (facturaEnEdicionIndex !== null) {
-        // En modo Edición
-        facturas[facturaEnEdicionIndex].cliente = { ...clientes[indexCli] };
-        facturas[facturaEnEdicionIndex].conceptos = concepts;
-        facturas[facturaEnEdicionIndex].subtotal = subtotal;
-        facturas[facturaEnEdicionIndex].iva = iva;
-        facturas[facturaEnEdicionIndex].ivaPorcentaje = ivaPorcentaje;
-        facturas[facturaEnEdicionIndex].total = total;
-        // Mantenemos misma ID y fecha original
-        mensajeExito = 'Cambios guardados correctamente.';
-    } else {
-        // Nueva Factura
-        const nuevaFactura = {
-            id: facturas.length > 0 ? facturas[facturas.length-1].id + 1 : 1, // ID auto incremental simple sin reuso
-            fecha: new Date().toISOString().split('T')[0], // ISO YYYY-MM-DD
-            cliente: { ...clientes[indexCli] },
-            conceptos: concepts,
-            subtotal, iva, ivaPorcentaje, total
-        };
-        facturas.push(nuevaFactura);
-        mensajeExito = 'La factura se ha emitido y guardado.';
-    }
-
-    guardarDatosEnDisco();
-    
+    // Confirmación antes de emitir/guardar
     Swal.fire({
-        title: facturaEnEdicionIndex !== null ? 'Factura Actualizada' : 'Factura Emitida',
-        text: mensajeExito,
-        icon: 'success',
-        confirmButtonColor: '#7c3ae3'
-    }).then(() => {
-        this.reset();
-        document.getElementById('lineas-factura').innerHTML = '';
-        agregarLinea();
-        calcularTotales();
-        actualizarTablas();
-        // Resetear botones y modo
-        document.getElementById('btn-emitir').innerHTML = 'EMITIR FACTURA <i class="fa-solid fa-paper-plane ml-2"></i>';
-        facturaEnEdicionIndex = null;
-        navigate('facturas', document.querySelectorAll('.nav-btn')[2]);
+        title: esEdicion ? '¿Guardar los cambios?' : '¿Emitir esta factura?',
+        html: `Cliente: <b>${clientes[indexCli].nombre}</b><br>` +
+              `Total: <b>${total.toFixed(2)} €</b> <span style="color:#94a3b8">(IVA ${ivaPorcentaje}%)</span>`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#7c3ae3',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: esEdicion ? 'Sí, guardar cambios' : 'Sí, emitir factura',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (!result.isConfirmed) return;
+
+        let mensajeExito = '';
+        if (esEdicion) {
+            // En modo Edición
+            facturas[facturaEnEdicionIndex].cliente = { ...clientes[indexCli] };
+            facturas[facturaEnEdicionIndex].conceptos = concepts;
+            facturas[facturaEnEdicionIndex].subtotal = subtotal;
+            facturas[facturaEnEdicionIndex].iva = iva;
+            facturas[facturaEnEdicionIndex].ivaPorcentaje = ivaPorcentaje;
+            facturas[facturaEnEdicionIndex].total = total;
+            // Mantenemos misma ID y fecha original
+            mensajeExito = 'Cambios guardados correctamente.';
+        } else {
+            // Nueva Factura
+            const nuevaFactura = {
+                id: facturas.length > 0 ? facturas[facturas.length-1].id + 1 : 1, // ID auto incremental simple sin reuso
+                fecha: new Date().toISOString().split('T')[0], // ISO YYYY-MM-DD
+                cliente: { ...clientes[indexCli] },
+                conceptos: concepts,
+                subtotal, iva, ivaPorcentaje, total
+            };
+            facturas.push(nuevaFactura);
+            mensajeExito = 'La factura se ha emitido y guardado.';
+        }
+
+        guardarDatosEnDisco();
+
+        Swal.fire({
+            title: esEdicion ? 'Factura Actualizada' : 'Factura Emitida',
+            text: mensajeExito,
+            icon: 'success',
+            confirmButtonColor: '#7c3ae3'
+        }).then(() => {
+            form.reset();
+            document.getElementById('lineas-factura').innerHTML = '';
+            agregarLinea();
+            calcularTotales();
+            actualizarTablas();
+            // Resetear botones y modo
+            document.getElementById('btn-emitir').innerHTML = 'EMITIR FACTURA <i class="fa-solid fa-paper-plane ml-2"></i>';
+            facturaEnEdicionIndex = null;
+            navigate('facturas', document.querySelectorAll('.nav-btn')[2]);
+        });
     });
 });
 
